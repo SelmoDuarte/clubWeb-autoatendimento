@@ -9,14 +9,14 @@
           <div class="card shadow-2-strong" style="border-radius: 1rem;">
             <div class="card-body p-5">
               <div class="text-center">              
-                  <img src="assets/img/logo.png" class="logo"> 
-                  <h3 class="mb-5">LOGIN IN</h3>
+                  <img src="assets/img/logo_minas.png" class="logo"> 
+                  <h3 class="mb-5">Área do Associado</h3>
                </div> 
                @for (alert of alerts; track alert) {
                 <ngb-alert [type]="alert.type" (closed)="closeAlert(alert)">{{ alert.message }}</ngb-alert>
               }	   
               <div class="form-outline mb-4 text-left">
-                <label class="form-label" for="typeEmailX-2">Usuário</label>
+                <label class="form-label" for="typeEmailX-2">Nº do Titulo</label>
                 <input [(ngModel)]="usuario.userName" id="userName" #campoInicial type="text" class="form-control form-control-sm" />
               </div>
   

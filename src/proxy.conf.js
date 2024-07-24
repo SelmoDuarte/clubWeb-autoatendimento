@@ -12,7 +12,7 @@ function logProvider() { //(2)
   });
 }var PROXY_CONF = {
   '/api': {
-    target: 'http://172.16.0.242:8080',
+    target: 'https://minasbrasilia.app.br/sistemas/clubWeb-autoatendimento-api',
     secure: false,
     changeOrigin: true,
     logLevel: 'debug',
