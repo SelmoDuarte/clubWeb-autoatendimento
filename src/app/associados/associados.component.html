@@ -1,0 +1,95 @@
+@if (processando) {
+	<div class="loading">Loading&#8230;</div>
+}
+
+<div class="container-fluid">
+   <div class="callout callout-pesquisa">
+       <div class="row">
+            <div class="col-md-2">
+                <label class="form-label">Pesquisar por:</label>
+                <select [(ngModel)]="filtro.tipo" name="nome" class="form-control form-control form-select-sm" (change)="atualizarTipoPesquisa()">
+                        <option *ngFor="let t of listaTipoPesquisa" [value]="t">{{ t}}</option>
+                </select>
+           </div>     
+           <div class="col-md-auto">
+            <label class="form-label">&nbsp;</label>            
+            <div class="form-group input-group">
+                <input class="form-control form-controlm campoPesquisa" [mask]="mascaraPesquisa"  [(ngModel)]="filtro.valor" type="search" id="campoPesquisa" #campoPesquisa placeholder="Search" aria-label="Search" (keydown.enter)="pesquisar()" />&nbsp;&nbsp;&nbsp;&nbsp;
+                <button type="button" class="btn btn-outline-primary" (click)="pesquisar()"><i class="fa fa-refresh" aria-hidden="true"></i></button>&nbsp;&nbsp;&nbsp;&nbsp;                   
+            </div>
+           </div>
+           <div class="col-md-2 align-self-end">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" [checked]="filtro.socios == 'S'" />
+                    <label class="form-check-label" for="flexCheckChecked">
+                        Sócios
+                    </label>
+                </div>
+                <div class="form-check">                
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" [checked]="filtro.dependentes == 'S'" />
+                    <label class="form-check-label" for="flexCheckChecked">
+                        Dependentes
+                    </label>
+                </div>
+            </div>
+            <div class="col-md-2 align-self-end">
+                <div class="form-check">                
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" [checked]="filtro.nao_socios == 'S'" />                
+                    <label class="form-check-label" for="flexCheckChecked">
+                        Não Sócio
+                    </label>
+                </div>
+            </div>
+
+           <div class="col-md-2 align-self-end">
+               <div class="form-check">
+                   <input class="form-check-input" type="checkbox" value="" #checkBox_filtro_somenteAtivos [checked]="filtro.somenteAtivos == 'S'" />
+                   <label class="form-check-label" for="flexCheckChecked">
+                       Somente Ativos
+                   </label>
+               </div>
+           </div>
+       </div>
+   </div>
+   <div class="row">
+    <div class=" col-md-12" >
+        @for (alert of alerts; track alert) {
+            <ngb-alert [type]="alert.type" (closed)="closeAlert(alert)">{{ alert.message }}</ngb-alert>
+        }	   
+    </div>
+   <div>
+       <table class="table table-striped" id="excel-table" [hidden]="listaAssociados.length <= 0">
+           <thead>
+               <tr>
+                   <th>Titulo</th>
+                   <th>Nome</th>
+                   <th>Categoria</th>
+                   <th>Idade</th>
+                   <th>Celular</th>
+               </tr>
+           </thead>
+           <tbody>
+               <tr *ngFor="let a of listaAssociados" (click)="openModal(a)">
+                   <td>
+                       {{a.titulo}}
+                   </td>
+                   <td>
+                       {{a.nome}}
+                   </td>
+                   <td>
+                       {{a.categoria_descricao}}
+                   </td>
+                   <td>
+                       {{a.idade}}
+                   </td>
+                   <td>
+                       {{a.tel2}}
+                   </td>
+               </tr>
+           </tbody>
+       </table>
+   </div>
+
+
+</div>
+

@@ -1,0 +1,22 @@
+export class Professor {
+    id: string = null;
+    nome: string = null;
+    endereco: string = null;
+    bairro: string = null;
+    cep: string = null;
+    idcidade: string = null;
+    tel1: string = null;
+    tel2: string = null;
+    dtnasc: string = null;
+    email: string = null;
+    flg_ativo: string = null;
+    cpf: string = null;
+    obs: string = null;
+    rg: string = null;
+    flg_controle_hr: string = null;
+    matricula: string = null;
+    credencial: string = null;
+    via: string = null;
+    seq_matr: string = null;
+    foto: string = null;
+}

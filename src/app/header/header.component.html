@@ -1,0 +1,194 @@
+<nav class="navbar navbar-expand-lg shadow navbar-dark bg-dark">
+  <div class="container-fluid">
+    <span class="badge bg-primary fw-bold nome-sistema"><i class="fa fa-connectdevelop" aria-hidden="true"><span class="titulo"> - Club-TECNOSYS </span> </i></span>&nbsp;&nbsp;&nbsp;&nbsp;
+    <span [hidden]="getAmbiente() !== 'HML'" class="badge bg-white fw-bold ambiente">Homologação<br>{{usuario.s}}</span>
+    <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-content">
+      <div class="hamburger-toggle">
+        <div class="hamburger">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </button>
+    <div class="collapse navbar-collapse" id="navbar-content">
+      <ul class="navbar-nav ms-auto">
+      </ul>
+      <form class="d-flex">
+        <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="#" [routerLink]="['/home']" routerLinkActive="active" (click)="alterarTitulo('HOME')">HOME</a>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" data-bs-auto-close="outside" >FINANCEIRO</a>
+            <ul class="dropdown-menu shadow"  id="itemMenuFinanceiro">
+              <li><button type="button" class="dropdown-item" (click)="baixaColetivaAtividade()">BAIXA COLETIVA POR ATIVIDADE</button>
+            </ul>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" data-bs-auto-close="outside" >ATIVIDADES</a>
+            <ul class="dropdown-menu shadow"  id="itemMenuAtividades">
+              <li><a class="dropdown-item" [routerLink]="['/relatorio/atividades/matriculados']" (click)="fecharMenuPai('Atividades > Matricula', 'itemMenuAtividades')">MATRÍCULAS</a></li>
+              <li><hr class="dropdown-divider"></li>              
+              <li class="dropstart">
+                <a href="#" class="dropdown-item dropdown-toggle" data-bs-toggle="dropdown" >INTERNET</a>
+                <ul class="dropdown-menu shadow">
+                  <li><a class="dropdown-item" [routerLink]="['/eventos']" routerLinkActive="active" (click)="fecharMenuPai('Tabela > Eventos', 'itemMenuAtividades')">EVENTO</a></li>
+                  <li><a class="dropdown-item" [routerLink]="['/geral', '1']" routerLinkActive="active" (click)="fecharMenuPai('Inscrições > Andamento', 'itemMenuAtividades')">INSCRICOES</a></li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" data-bs-auto-close="outside">RELATORIOS</a>
+            <ul class="dropdown-menu shadow" id="itemMenuRelatorios">
+              <!--li><a class="dropdown-item" href="#">ATIVIDADES</a></li>
+              <li><hr class="dropdown-divider"></li-->      
+                <li class="dropstart">
+                  <a href="#" class="dropdown-item dropdown-toggle" data-bs-toggle="dropdown">ASSOCIADOS</a>
+                  <ul class="dropdown-menu shadow">
+                    <li><a class="dropdown-item" [routerLink]="['/relatorio/associados/convenio']" routerLinkActive="active" (click)="fecharMenuPai('Relatorio > Associados -> Convenio', 'itemMenuRelatorios')">CONVENIOS</a></li>
+                  </ul>
+                </li>  
+              <li class="dropstart">
+                <a href="#" class="dropdown-item dropdown-toggle" data-bs-toggle="dropdown">ATIVIDADES</a>
+                <ul class="dropdown-menu shadow">
+                  <li><a class="dropdown-item" [routerLink]="['/relatorio/atividades/matriculados']" routerLinkActive="active" (click)="fecharMenuPai('Relatorio > Atividades -> Matriculados', 'itemMenuRelatorios')">MATRICULADOS</a></li>
+                </ul>
+              </li>
+              <li class="dropstart">
+                <a href="#" class="dropdown-item dropdown-toggle" data-bs-toggle="dropdown">FINANCEIRO</a>
+                <ul class="dropdown-menu shadow">
+                  <li><a class="dropdown-item" [routerLink]="['/relatorio/financeiro/resumo-caixa']" routerLinkActive="active" (click)="fecharMenuPai('Relatorio > Financeiro -> Resumo Caixa', 'itemMenuRelatorios')">RESUMO CAIXA</a></li>
+                  <li><a class="dropdown-item" [routerLink]="['/relatorio/financeiro/atividades']" routerLinkActive="active" (click)="fecharMenuPai('Relatorio > Financeiro -> Por Atividade', 'itemMenuRelatorios')">POR ATIVIDADE</a></li>
+                </ul>
+              </li>              
+            </ul>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" data-bs-auto-close="outside">TABELAS</a>
+            <ul class="dropdown-menu shadow" id="itemMenuTabelas" >
+              <li><a class="dropdown-item" [routerLink]="['/tabelas/cobranca']" routerLinkActive="active" (click)="fecharMenuPai('Tabela > Atividade', 'itemMenuTabelas')">COBRANÇAS</a></li>
+              <li><a class="dropdown-item" [routerLink]="['/tabelas/atividade']" routerLinkActive="active" (click)="fecharMenuPai('Tabela > Atividade', 'itemMenuTabelas')">ATIVIDADES</a></li>
+              <li><hr class="dropdown-divider"></li>              
+              <!--li><a class="dropdown-item" [routerLink]="['/tabelas/turmas']" routerLinkActive="active" (click)="fecharMenuPai('Tabela > Atividade', 'itemMenuTabelas')">TURMAS</a></li-->
+              <li><hr class="dropdown-divider"></li>              
+              <li><a class="dropdown-item" [routerLink]="['/tabelas/professores']" routerLinkActive="active" (click)="fecharMenuPai('Tabela > Atividade', 'itemMenuTabelas')">PROFESSORES</a></li>
+              <!--li><hr class="dropdown-divider"></li>              
+              <li class="dropstart">
+                <a href="#" class="dropdown-item dropdown-toggle" data-bs-toggle="dropdown">ATIVIDADES</a>
+                <ul class="dropdown-menu shadow">
+                  <li><a class="dropdown-item" href="">SITUAÇÃO FINANCEIRA</a></li>
+                </ul>
+              </li-->
+            </ul>
+          </li>
+
+
+          <li class="nav-item">
+            <a class="btn iconeLogout" (click)="logout()" ><i class="fa fa-sign-out" aria-hidden="true"></i></a>                                
+          </li>
+        </ul>
+      </form>
+    </div>
+  </div>
+</nav>
+
+
+<!--nav class="navbar navbar-expand-lg shadow navbar-dark bg-dark">
+  <div class="container-fluid">
+    <span class="badge bg-primary fw-bold nome-sistema"><i class="fa fa-connectdevelop" aria-hidden="true"><span class="titulo"> - ClubWeb </span> </i></span>&nbsp;&nbsp;&nbsp;&nbsp;
+    <span [hidden]="getAmbiente() !== 'HML'" class="badge bg-white fw-bold ambiente">Homologação</span>
+    <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-content">
+      <div class="hamburger-toggle">
+        <div class="hamburger">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </button>
+    <div class="collapse navbar-collapse" id="navbar-content">
+      <ul class="navbar-nav ms-auto">
+      </ul>
+      <form class="d-flex">
+        <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="#" [routerLink]="['/associados']" routerLinkActive="active" (click)="alterarTitulo('Asscciados > ASCCLUB')">ASSOCIADOS</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              ATIVIDADES
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <li><a class="dropdown-item" href="#" [routerLink]="['/eventos']" routerLinkActive="active" (click)="alterarTitulo('Tabela > Eventos')">Atividades WEB</a></li>
+              <li><a class="dropdown-item" href="#" [routerLink]="['/geral', '1']" routerLinkActive="active" (click)="alterarTitulo('Inscrições > Andamento')" >Inscrições pela WEB</a></li>
+              <li><a class="dropdown-item" href="#" [routerLink]="['/relatorio/atividades']" routerLinkActive="active" (click)="alterarTitulo('Atividades > Matricula')" >Matriculas</a></li>
+            </ul>
+          </li>          
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Home</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" data-bs-auto-close="outside">ATIVIDADES</a>
+            <ul class="dropdown-menu shadow">
+              <li><a class="dropdown-item" href="#">Matriculas</a></li>
+              <li class="dropstart">
+                <a href="#" class="dropdown-item dropdown-toggle" data-bs-toggle="dropdown">Internet</a>
+                <ul class="dropdown-menu shadow">
+                  <li><a class="dropdown-item" href=""> Atividades</a></li>
+                  <li><a class="dropdown-item" href=""> Inscrições</a></li>
+                </ul>
+              </li>
+              <li class="dropend">
+                <a href="#" class="dropdown-item dropdown-toggle" data-bs-toggle="dropdown" data-bs-auto-close="outside">Submenu Right</a>
+                <ul class="dropdown-menu shadow">
+                  <li><a class="dropdown-item" href=""> Second level 1</a></li>
+                  <li><a class="dropdown-item" href=""> Second level 2</a></li>
+                  <li><a class="dropdown-item" href=""> Second level 3</a></li>
+                  <li class="dropend">
+                    <a href="#" class="dropdown-item dropdown-toggle" data-bs-toggle="dropdown" data-bs-auto-close="outside">Let's go deeper!</a>
+                    <ul class="dropdown-menu dropdown-submenu shadow">
+                      <li><a class="dropdown-item" href=""> Third level 1</a></li>
+                      <li><a class="dropdown-item" href=""> Third level 2</a></li>
+                      <li><a class="dropdown-item" href=""> Third level 3</a></li>
+                      <li><a class="dropdown-item" href=""> Third level 4</a></li>
+                      <li class="dropend">
+                        <a href="#" class="dropdown-item dropdown-toggle" data-bs-toggle="dropdown">Still don't have enough? Go much deeper!</a>
+                        <ul class="dropdown-menu dropdown-submenu shadow">
+                          <li><a class="dropdown-item" href=""> Third level 1</a></li>
+                          <li><a class="dropdown-item" href=""> Third level 2</a></li>
+                          <li><a class="dropdown-item" href=""> Third level 3</a></li>
+                          <li><a class="dropdown-item" href=""> Third level 4</a></li>
+                          <li><a class="dropdown-item" href=""> Third level 5</a></li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                  <li><a class="dropdown-item" href=""> Third level 5</a></li>
+                </ul>
+              </li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Link</a>
+          </li>
+          <li class="nav-item dropdown dropdown-mega position-static">
+            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" data-bs-auto-close="outside">Megamenu</a>
+            <div class="dropdown-menu shadow">
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="btn iconeLogout" (click)="logout()" ><i class="fa fa-sign-out" aria-hidden="true"></i></a>                                
+          </li>
+        </ul>
+      </form>
+    </div>
+  </div>
+</nav-->

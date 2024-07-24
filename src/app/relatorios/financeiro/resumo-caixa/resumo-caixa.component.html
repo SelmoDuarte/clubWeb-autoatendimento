@@ -1,0 +1,244 @@
+@if (processando) {
+	<div class="loading">Loading&#8230;</div>
+	}
+	<div class="container-fluid" id="contentToConvert">
+	<div class="tabela" >
+	<div class="callout callout-pesquisa">
+	   <div class="row">
+		  <div class="col-12">
+			 <span class="badge bg-dark fw-bold ">Relatorio -> Financeiro -> Resumo de Caixa:</span>
+		  </div>
+	   </div>
+	   <div class="row">
+		<div class="col-md-9">
+			<div class="row">
+				<div class="col-md-auto">
+					<label class="form-label">Tipo Pagamento:</label>
+					   <select [(ngModel)]="filtro.tipo_pagamento" type="text" #campoInicial class="form-control form-control-sm form-select-sm" (keydown.enter)="refreshTipoPagamento()" >
+						 <option value="">TODOS</option>						
+						   <option *ngFor="let t of listaTiposPagamento" [value]="t.id">{{ t.descricao }}</option>
+					   </select>
+				</div> 
+				<div class="col-md-auto" [hidden]="filtro.tipo_pagamento != '1'">
+				   <label class="form-label">Usuário:</label>
+					  <select [(ngModel)]="filtro.usuario" type="text"  class="form-control form-control-sm form-select-sm" (keydown.enter)="refreshUsuario()" >
+						<option value=""></option>						
+					  	<option *ngFor="let t of listaUsuarios" [value]="t.id">{{ t.descricao }}</option>
+					  </select>
+				</div>
+				<div class="col-md-auto" [hidden]="filtro.tipo_pagamento != '2'">
+					<label class="form-label">Layout:</label>
+					   <select [(ngModel)]="filtro.layout" type="text"  class="form-control form-control-sm form-select-sm" (keydown.enter)="refreshLayout()" >
+						 <option value=""></option>						
+						   <option *ngFor="let t of listaLayouts" [value]="t.id">{{ t.descricao }}</option>
+					   </select>
+				 </div>
+ 
+				<div class="col-md-3">
+				   <label class="form-label">Periodo:</label>
+				   <div class="form-group input-group">
+					<input [(ngModel)]="filtro.data_inicio" type="text" mask="d0/M0/0000" #campoData [dropSpecialCharacters]="false" class="form-control form-control-sm" (keydown.enter)="refresh()" />&nbsp;&nbsp; até &nbsp;&nbsp;
+					<input [(ngModel)]="filtro.data_fim" type="text" mask="d0/M0/0000" #campoData [dropSpecialCharacters]="false" class="form-control form-control-sm" (keydown.enter)="refresh()" />										
+				 </div>
+
+
+				</div>
+				<div class="col-md-3">
+					   <label class="form-label">			 
+						  <div class="form-check">
+							  <input class="form-check-input" type="checkbox" value="" #checkBox_filtro_sintetico [checked]="filtro.sintetico == 'S'" (change)="refresh()"/>
+							  <label class="form-check-label" for="flexCheckChecked">	Sintético	</label>
+						  </div>
+					  </label><br>
+				   <!--button type="button" class="btn btn-outline-primary" (click)="openModal(content, '')">Novo</button>&nbsp;&nbsp;&nbsp;&nbsp;-->
+				   <button type="button" class="btn btn-outline-primary btn-sm" (click)="refresh()"><i class="fa fa-refresh" aria-hidden="true"></i></button>&nbsp;&nbsp;&nbsp;&nbsp;
+				   <button type="button" class="btn btn-outline-success btn-sm" (click)="exportexcel()"><i class="fa fa-file-excel-o" aria-hidden="true"></i></button>&nbsp;&nbsp;&nbsp;&nbsp;
+				   <button type="button" class="btn btn-outline-danger btn-sm" (click)="gerarPDF()"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></button>&nbsp;&nbsp;&nbsp;&nbsp;				   
+				</div>
+			 </div>
+		</div>
+		<div class="col-md-3" [hidden]="listaOriginal.length <= 0">
+			<div class="row">
+				<div class="col-3" >
+				</div>
+				<div class="col-9">
+				   <p class="text-end">Total encontrados : <b>{{listaOriginal.length}}</b></p>
+				   <input	type="text"	class="form-control form-control-sm" name="searchTerm" #campoPesquisa [(ngModel)]="searchTerm" (ngModelChange)="pesquisar()"/>
+				</div>
+			 </div>
+		</div>
+	  </div>		
+	</div>
+	<div class="row">
+	   <div class="col-md-12">
+		  @for (alert of alerts; track alert) {
+		  <ngb-alert [type]="alert.type" (closed)="closeAlert(alert)">{{ alert.message }}</ngb-alert>
+		  }
+	   </div>
+	</div>
+	<hr>
+	<div class ="callout callout-total"  [hidden]="lista.length <= 0">
+		<div>
+			<div class="row">
+			  <div class="col-md-4"><p>Valor Total</p></div>
+			  <div class="col-md-4 offset-md-4"><p class="text-end"><b>{{getValorTotal() | currency : 'BRL' }}</b></p></div>
+			</div>		
+		</div>	
+	</div>
+
+<!-- #####################################-    RELATORIO ANALITICO     #####################################-->	
+	<table [hidden]="filtro.sintetico =='S'" class="table table-striped" id="excel-table">
+	   <thead>
+		  <tr >
+			 <th scope="col">Nº Recibo</th>
+			 <th scope="col">ID Boleto</th>
+			 <th scope="col">Titulo</th>
+			 <th scope="col">Nome</th>
+			 <th scope="col">Dt Pag</th>
+			 <th scope="col">Comp.</th>
+			 <th [hidden]="filtro.tipo_pagamento != ''" scope="col">Tipo</th>
+			 <th [hidden]="filtro.tipo_pagamento != '1' || filtro.usuario != ''" scope="col">Usuario</th>
+			 <th scope="col" class="text-end">Valor Total</th>
+			 <!--th scope="col" class="text-end">Valor Pago</th-->
+		  </tr>
+	   </thead>
+	   <tbody>
+		  <tr (click)="openModal(e.idassociado)" *ngFor="let e of lista">
+		  <td>
+			 <ngb-highlight class="textoTabela" [result]="e.idrecibo" [term]="searchTerm" />
+		  </td>
+		  <td>
+			 <ngb-highlight class="textoTabela" [result]="e.idboleto" [term]="searchTerm" />
+		  </td>
+		  <td>
+			 <ngb-highlight class="textoTabela" [result]="e.titulo" [term]="searchTerm" />
+		  </td>
+		  <td>
+			 <ngb-highlight class="textoTabela" [result]="e.nome" [term]="searchTerm" />
+		  </td>
+		  <td>
+			 <ngb-highlight class="textoTabela" [result]="e.dtpag" [term]="searchTerm" />
+		  </td>
+		  <td>
+			 {{e.ano_mes}} 
+		  </td>
+		  <td [hidden]="filtro.tipo_pagamento != ''">
+			<ngb-highlight class="textoTabela" [result]="e.tipo_pagamento_descricao" [term]="searchTerm" />
+		 </td>
+		 <td [hidden]="filtro.tipo_pagamento != '1' || filtro.usuario != ''">
+			<ngb-highlight class="textoTabela" [result]="e.usuario_nome" [term]="searchTerm" />
+		 </td>
+
+		  <td [ngClass]="getNomesCSSLancamento(e)">
+			<p class="text-end">{{e.total_formatado}}</p>
+		  </td>
+		  <td [ngClass]="getNomesCSSValorPagoDiferente(e)">
+			<p class="text-end">{{getValorTotalPago(e) | currency : 'BRL'}}</p>
+		  </td>
+
+		  </tr>
+	   </tbody>
+	</table>
+<!-- #####################################-    RELATORIO SINTETICO     #####################################-->
+<div [hidden]="filtro.sintetico =='N'" class="row" *ngFor="let e of lista">
+	<div class="col-md-12">
+		<div class ="callout callout-cobranca">
+			<div class="row">
+				<div class="col-md-4">
+					<p >{{e.cobranca}}</p>
+				</div>
+				<div class="col-md-4 offset-md-4">
+					<p class="text-end">{{e.total | currency : 'BRL' }}</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-12" *ngFor="let ee of e.listaCategorias">
+		<div class ="callout callout-categoria">
+			<div class="row">
+				<div class="col-md-4">
+					<p >{{ee.categoria}}</p>
+				</div>
+				<div class="col-md-4 offset-md-4">
+					<p class="text-end">{{ee.total | currency : 'BRL' }}</p>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-12" *ngFor="let eee of ee.listaLancamentos">
+			<div class ="callout-lancamento">
+				<div class="row">
+					<div class="col-md-4">
+						<p >{{eee.ano_mes}}</p>
+					</div>
+					<div class="col-md-4 offset-md-4">
+						<p class="text-end">{{eee.total | currency : 'BRL' }}</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	
+
+	</div>
+
+ </div>
+ <div [hidden]="lista.length <= 0">
+	<div>
+		<div class="row">
+			<div class="col-md-9"></div>
+			<div class="col-md-3">
+				<div class="row callout callout-total-completo margen-direita-10">
+					<div class="col-md-6">
+						<p>
+							<span [hidden]=" registroTotal.valor_retorno_banco == null">Retorno Banco:<br></span>							
+							<span [hidden]=" registroTotal.valor_cartao == null">Cartão:<br></span>
+							<span [hidden]=" registroTotal.valor_pix== null">PIX:<br></span>
+							<span [hidden]=" registroTotal.valor_compensacao== null">Compensação:<br></span>							
+							<span [hidden]=" registroTotal.valor_dinheiro == null">Dinheiro:<br></span>
+							<span [hidden]=" registroTotal.valor_auto_atendimento == null">Auto Atendimento:<br></span>							
+							<span [hidden]=" registroTotal.valor_cheque == null">Cheque:<br></span>
+							<span [hidden]=" registroTotal.valor_cheque_pre == null">Cheque pré:<br></span>
+							<span [hidden]=" registroTotal.valor_deposito_bancario == null">Depósito Bancário:</span>
+						</p>	
+					</div>
+					<div class="col-md-6">
+						<p class="text-end">
+							<span [hidden]=" registroTotal.valor_retorno_banco == null">{{registroTotal.valor_retorno_banco | currency : 'BRL' }}<br></span>							
+							<span [hidden]=" registroTotal.valor_cartao == null">{{registroTotal.valor_cartao | currency : 'BRL' }}<br></span>
+							<span [hidden]=" registroTotal.valor_pix== null">{{registroTotal.valor_pix | currency : 'BRL' }}<br></span>							
+							<span [hidden]=" registroTotal.valor_compensacao== null">{{registroTotal.valor_compensacao | currency : 'BRL' }}<br></span>
+							<span [hidden]=" registroTotal.valor_dinheiro == null">{{registroTotal.valor_dinheiro | currency : 'BRL' }}<br></span>
+							<span [hidden]=" registroTotal.valor_auto_atendimento == null">{{registroTotal.valor_auto_atendimento | currency : 'BRL' }}<br></span>
+							<span [hidden]=" registroTotal.valor_cheque == null">{{registroTotal.valor_cheque | currency : 'BRL' }}<br></span>
+							<span [hidden]=" registroTotal.valor_cheque_pre == null">{{registroTotal.valor_cheque_pre | currency : 'BRL' }}<br></span>
+							<span [hidden]=" registroTotal.valor_deposito_bancario == null">{{registroTotal.valor_deposito_bancario | currency : 'BRL' }}</span>
+						</p><hr>
+					</div>		
+					<div class="col-md-6">
+						<p>
+							<b>TOTAL GERAL:</b>
+						</p>	
+					</div>
+					<div class="col-md-6">
+						<p class="text-end margen-direita-10">
+							<b>{{getValorTotalPago(registroTotal) | currency : 'BRL' }}</b>
+						</p>	
+					</div>		
+	
+				</div>
+			</div>		
+		</div>		
+	</div>	
+</div>
+
+
+	<div class="d-flex justify-content-between p-2">
+	   <ngb-pagination [collectionSize]="(paginacao.total)!" [(page)]="paginacao.page" [pageSize]="paginacao.pageSize" (pageChange)="pesquisar()">
+	   </ngb-pagination>
+	   <select class="form-select-sm" style="width: auto" name="pageSize" [(ngModel)]="paginacao.pageSize" (ngModelChange)="pesquisar()">
+	   <option [ngValue]="100">100 itens por página</option>
+	   <option [ngValue]="250">250 itens por página</option>
+	   <option [ngValue]="500">500 itens por página</option>
+	   </select>
+	</div>
+	

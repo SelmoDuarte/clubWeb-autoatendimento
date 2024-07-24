@@ -1,0 +1,328 @@
+h1 {
+    text-align: center;
+}
+.field {
+    background-image: url('/assets/img/soccer_field.png'); /* Adicione a imagem do campo de futebol */
+    background-size: contain;
+    background-repeat: no-repeat;
+/*    width: 800px; /* Largura da imagem do campo */
+    height: 500px; /* Altura da imagem do campo */
+    margin: 0 auto;
+    position: relative;
+}
+.player {
+    position: absolute;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+}
+.goalkeeper { /* Posição do goleiro */
+    top: 200px;
+    left: 50px;
+}
+.defender { /* Posições dos defensores */
+    top: 150px;
+    left: 200px;
+}
+.midfielder { /* Posições dos meio-campistas */
+    top: 200px;
+    left: 400px;
+}
+.forward { /* Posições dos atacantes */
+    top: 250px;
+    left: 600px;
+}
+
+
+
+/* LISTA DE JOGADORES*/
+
+
+.card {
+    background: #fff;
+    border-width: 0;
+    border-radius: .25rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .05);
+    margin-bottom: 1.5rem
+}
+
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid rgba(19, 24, 44, .125);
+    border-radius: .25rem
+}
+
+.list-item {
+   position: relative;
+   display: -ms-flexbox;
+   display: flex;
+   -ms-flex-direction: column;
+   flex-direction: column;
+   min-width: 0;
+   word-wrap: break-word
+}
+
+.list-item.block .media {
+   border-bottom-left-radius: 0;
+   border-bottom-right-radius: 0
+}
+
+.list-item.block .list-content {
+   padding: 1rem
+}
+
+.w-40 {
+   width: 40px!important;
+   height: 40px!important
+}
+
+.avatar {
+   position: relative;
+   line-height: 1;
+   border-radius: 500px;
+   white-space: nowrap;
+/*   font-weight: 30px;*/
+   border-radius: 100%;
+   display: -ms-flexbox;
+   display: flex;
+   -ms-flex-pack: center;
+   justify-content: center;
+   -ms-flex-align: center;
+   align-items: center;
+   -ms-flex-negative: 0;
+   flex-shrink: 0;
+   border-radius: 500px;
+   box-shadow: 0 5px 10px 0 rgba(50, 50, 50, .15)
+}
+
+.avatar img {
+   border-radius: inherit;
+   width: 100%
+}
+
+.gd-goleiro {
+   color: #fff;
+   border: none;
+   background: #448bff linear-gradient(45deg, #448bff, #44e9ff)
+}
+
+.gd-defesa {
+   color: #41464b;
+   background-color: #e2e3e5;
+}
+
+.gd-meio {
+   color: #664d03;
+   background-color: #fff3cd;
+   border-color: #ffecb5;
+}
+
+.gd-ataque {
+/**   color: #fff; **/
+   border: none;
+   color: #0f5132;
+   background-color: #d1e7dd;
+   border-color: #badbcc;
+}
+
+
+.flex {
+   -webkit-box-flex: 1;
+   -ms-flex: 1 1 auto;
+   flex: 1 1 auto
+}
+
+.text-color {
+   color: #5e676f
+}
+
+.text-sm {
+   font-size: .825rem
+}
+
+.h-1x {
+   height: 1.25rem;
+   overflow: hidden;
+   display: -webkit-box;
+   -webkit-line-clamp: 1;
+   -webkit-box-orient: vertical
+}
+
+.no-wrap {
+   white-space: nowrap
+}
+
+.list-row .list-item {
+   -ms-flex-direction: row;
+   flex-direction: row;
+   -ms-flex-align: center;
+   align-items: center;
+   padding: .75rem .625rem;
+}
+
+.list-item {
+   position: relative;
+   display: -ms-flexbox;
+   display: flex;
+   -ms-flex-direction: column;
+   flex-direction: column;
+   min-width: 0;
+   word-wrap: break-word;
+}
+
+.list-row .list-item>* {
+   padding-left: .625rem;
+   padding-right: .625rem;
+}
+
+.dropdown {
+   position: relative;
+}
+
+a:focus, a:hover {
+   text-decoration: none;
+}
+
+list-item{
+   background:white;
+}
+
+
+/** ######################## ESTRELAS ##################################**/
+
+
+.rating-color{
+   color:#fbc634 !important;
+}
+
+
+/** ######################## CARREGANDO ##################################**/
+
+/* Absolute Center Spinner */
+.loading {
+   position: fixed;
+   z-index: 999;
+   height: 2em;
+   width: 2em;
+   overflow: show;
+   margin: auto;
+   top: 0;
+   left: 0;
+   bottom: 0;
+   right: 0;
+ }
+ 
+ /* Transparent Overlay */
+ .loading:before {
+   content: '';
+   display: block;
+   position: fixed;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+     background: radial-gradient(rgba(20, 20, 20,.8), rgba(0, 0, 0, .8));
+ 
+   background: -webkit-radial-gradient(rgba(20, 20, 20,.8), rgba(0, 0, 0,.8));
+ }
+ 
+ /* :not(:required) hides these rules from IE9 and below */
+ .loading:not(:required) {
+   /* hide "loading..." text */
+   font: 0/0 a;
+   color: transparent;
+   text-shadow: none;
+   background-color: transparent;
+   border: 0;
+ }
+ 
+ .loading:not(:required):after {
+   content: '';
+   display: block;
+   font-size: 10px;
+   width: 1em;
+   height: 1em;
+   margin-top: -0.5em;
+   -webkit-animation: spinner 150ms infinite linear;
+   -moz-animation: spinner 150ms infinite linear;
+   -ms-animation: spinner 150ms infinite linear;
+   -o-animation: spinner 150ms infinite linear;
+   animation: spinner 150ms infinite linear;
+   border-radius: 0.5em;
+   -webkit-box-shadow: rgba(255,255,255, 0.75) 1.5em 0 0 0, rgba(255,255,255, 0.75) 1.1em 1.1em 0 0, rgba(255,255,255, 0.75) 0 1.5em 0 0, rgba(255,255,255, 0.75) -1.1em 1.1em 0 0, rgba(255,255,255, 0.75) -1.5em 0 0 0, rgba(255,255,255, 0.75) -1.1em -1.1em 0 0, rgba(255,255,255, 0.75) 0 -1.5em 0 0, rgba(255,255,255, 0.75) 1.1em -1.1em 0 0;
+ box-shadow: rgba(255,255,255, 0.75) 1.5em 0 0 0, rgba(255,255,255, 0.75) 1.1em 1.1em 0 0, rgba(255,255,255, 0.75) 0 1.5em 0 0, rgba(255,255,255, 0.75) -1.1em 1.1em 0 0, rgba(255,255,255, 0.75) -1.5em 0 0 0, rgba(255,255,255, 0.75) -1.1em -1.1em 0 0, rgba(255,255,255, 0.75) 0 -1.5em 0 0, rgba(255,255,255, 0.75) 1.1em -1.1em 0 0;
+ }
+ 
+ /* Animation */
+ 
+ @-webkit-keyframes spinner {
+   0% {
+     -webkit-transform: rotate(0deg);
+     -moz-transform: rotate(0deg);
+     -ms-transform: rotate(0deg);
+     -o-transform: rotate(0deg);
+     transform: rotate(0deg);
+   }
+   100% {
+     -webkit-transform: rotate(360deg);
+     -moz-transform: rotate(360deg);
+     -ms-transform: rotate(360deg);
+     -o-transform: rotate(360deg);
+     transform: rotate(360deg);
+   }
+ }
+ @-moz-keyframes spinner {
+   0% {
+     -webkit-transform: rotate(0deg);
+     -moz-transform: rotate(0deg);
+     -ms-transform: rotate(0deg);
+     -o-transform: rotate(0deg);
+     transform: rotate(0deg);
+   }
+   100% {
+     -webkit-transform: rotate(360deg);
+     -moz-transform: rotate(360deg);
+     -ms-transform: rotate(360deg);
+     -o-transform: rotate(360deg);
+     transform: rotate(360deg);
+   }
+ }
+ @-o-keyframes spinner {
+   0% {
+     -webkit-transform: rotate(0deg);
+     -moz-transform: rotate(0deg);
+     -ms-transform: rotate(0deg);
+     -o-transform: rotate(0deg);
+     transform: rotate(0deg);
+   }
+   100% {
+     -webkit-transform: rotate(360deg);
+     -moz-transform: rotate(360deg);
+     -ms-transform: rotate(360deg);
+     -o-transform: rotate(360deg);
+     transform: rotate(360deg);
+   }
+ }
+ @keyframes spinner {
+   0% {
+     -webkit-transform: rotate(0deg);
+     -moz-transform: rotate(0deg);
+     -ms-transform: rotate(0deg);
+     -o-transform: rotate(0deg);
+     transform: rotate(0deg);
+   }
+   100% {
+     -webkit-transform: rotate(360deg);
+     -moz-transform: rotate(360deg);
+     -ms-transform: rotate(360deg);
+     -o-transform: rotate(360deg);
+     transform: rotate(360deg);
+   }
+ }

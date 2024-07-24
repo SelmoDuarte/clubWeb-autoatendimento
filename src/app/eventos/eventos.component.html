@@ -1,0 +1,193 @@
+@if (service.loading$ | async) {
+	<div class="loading">Loading&#8230;</div>
+}
+<div class="container-fluid">
+	<div class="tabela" >
+	   <form>
+		  <div class="row mb-2">
+			 <div class="col-3">
+				<label for="table-complete-search" class="col-xs-3 col-sm-auto col-form-label">Pesquisar:</label>
+				<input
+				id="table-complete-search"
+				type="text"
+				class="form-control"
+				name="searchTerm"
+				[(ngModel)]="service.searchTerm"
+				/>
+			 </div>
+			 <div class="col-3" >
+				<div class="espacoEmBranco">&nbsp;&nbsp;</div>
+				<button type="button" class="btn btn-outline-primary" (click)="openModal(content, '')">Novo</button>&nbsp;&nbsp;&nbsp;&nbsp;
+				<button type="button" class="btn btn-outline-primary" (click)="refresh()"><i class="fa fa-refresh" aria-hidden="true"></i></button>&nbsp;&nbsp;&nbsp;&nbsp;
+				<button type="button" class="btn btn-outline-success" (click)="exportexcel()"><i class="fa fa-file-excel-o" aria-hidden="true"></i></button>&nbsp;&nbsp;&nbsp;&nbsp;				
+			 </div>
+			 <div class="col-3" >
+				<label for="table-complete-search" class="col-xs-3 col-sm-auto col-form-label">Filtro:</label>	
+			 </div>
+			 <div class="col-3 justify-content-end" >
+				<div class="d-flex justify-content-end">
+					<div class="alert alert-secondary mt-15" role="alert">
+						Total de Registros localizados : <b>{{numTotalRegistros}}</b>
+					</div>
+				</div>
+	
+			 </div>			 
+		  </div><hr>
+		  <table class="table table-striped" id="excel-table">
+			 <thead>
+				<tr >
+				   <th scope="col" sortable="id" (sort)="onSort($event)">ID</th>
+				   <th scope="col" sortable="nome" (sort)="onSort($event)">Nome</th>
+				   <th scope="col" sortable="valor_socio" (sort)="onSort($event)">Ingressos</th>
+				   <!--th scope="col" sortable="data_inicio" (sort)="onSort($event)">Inscrições</th-->
+				   <th scope="col" sortable="status" (sort)="onSort($event)">Status</th>				   				   				   
+				   <!--th scope="col" sortable="qtd_maxima_participantes" (sort)="onSort($event)">Qtd Max.</th>
+				   <th scope="col" sortable="comprar_varios_ingressos" (sort)="onSort($event)">Vários</th>				   
+				   <th scope="col" sortable="checkin" (sort)="onSort($event)">Check-in</th-->
+				</tr>
+			 </thead>
+			 <tbody>
+				@for (evento of listaEventos | async; track evento.id) {
+				<tr (click)="openModal(content, evento.id)">
+					<td>
+						<ngb-highlight class="textoTabela" [result]="evento.id" [term]="service.searchTerm" />
+					</td>	
+					<td>
+						<ngb-highlight class="textoTabela" [result]="evento.nome" [term]="service.searchTerm" />
+					</td>	
+				   <td>
+							<span>Valor Sócio: {{evento.valor_socio | currency:'BRL':true:'1.2-2' }}<br></span>
+							<span [hidden]="evento.permitir_nao_socio != 'Sim'">Valor Não Sócio: {{evento.valor_nao_socio | currency:'BRL':true:'1.2-2' }}<br></span>
+					</td>
+					<!--td>
+						<span [hidden]="evento.data_inicio == '00/00/0000'">Data inicio: {{evento.data_inicio}}<br></span>
+						<span [hidden]="evento.data_fim == '00/00/0000'">Data fim: {{evento.data_fim}}</span>
+						
+				   </td-->
+					<td>
+						<ngb-highlight class="textoTabela" [result]="evento.status" [term]="service.searchTerm" />
+				   </td>
+
+					<!--td>
+						<span class="textoTabela" [hidden]="evento.qtd_maxima_participantes == '0'">{{evento.qtd_maxima_participantes}}</span>
+				   </td>
+				   <td>
+					<span class="textoTabela">{{evento.comprar_varios_ingressos }}<br></span>											
+			   		</td>
+				   <td>
+					<span class="textoTabela" >{{evento.checkin}}</span>
+				   </td-->
+				</tr>
+				} @empty {
+				<tr>
+				   <td colspan="6" style="text-align: center">Nenhum registro localizado</td>
+				</tr>
+				}
+			 </tbody>
+		  </table>
+		  <div class="d-flex justify-content-between p-2">
+			 <ngb-pagination [collectionSize]="(total$ | async)!" [(page)]="service.page" [pageSize]="service.pageSize">
+			 </ngb-pagination>
+			 <select class="form-select-sm" style="width: auto" name="pageSize" [(ngModel)]="service.pageSize">
+			 <option [ngValue]="100">100 itens por página</option>
+			 <option [ngValue]="250">250 itens por página</option>
+			 <option [ngValue]="500">500 itens por página</option>
+			 </select>
+		  </div>
+	   </form>
+	</div>
+	<!-- ###########################################################         MODAL SEÇÃO          #############################################-->
+	<ng-template #content let-c="close" let-d="dismiss">
+		@if (processando) {
+			<div class="loading">Loading&#8230;</div>
+		}				
+	   <div class="modal-header alert alert-primary">
+		  <h4 class="modal-title" id="modal-basic-title"><i class="fa fa-newspaper-o" aria-hidden="true"></i>
+			 <span [hidden]="evento.id == ''" > - URL para inscrição: <a href='https://minasbrasilia.app.br/inscricoes/eventos/{{evento.id}}' target="_blank">https://minasbrasilia.app.br/inscricoes/eventos/{{evento.id}}</a></span>
+		  </h4>
+		  <button type="button" class="close" aria-label="Close" (click)="d('EXIT')">
+		  <span aria-hidden="true">&times;</span>
+		  </button>
+	   </div>
+	   <div class="modal-body">
+		  <div class="accordion" >
+			 <div class="accordion-item">
+				<h2 class="accordion-header" id="headingOne">
+				   <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+				   Dados do Evento
+				   </button>
+ 				   <img src="https://minasbrasilia.app.br/{{evento.banner}}" class="img-fluid" [hidden]="evento.banner == ''"  >
+				</h2>
+				<div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+				   <div class="accordion-body">
+					<div class="row">
+						<div class=" col-md-12" >
+							@for (alert of alerts; track alert) {
+								<ngb-alert [type]="alert.type" (closed)="closeAlert(alert)">{{ alert.message }}</ngb-alert>
+							}	   
+						</div>
+				  </div>	
+		
+					<div class="row">
+						<div class=" col-md-12" >
+							<label class="form-label" for="icone">Banner Evento (1600px x 400px) tamanho obrigatório</label>
+							<input type="file"  mat-stroked-button class="form-control form-control-sm"   ng2FileSelect [uploader]="uploader" [disabled]="modoLeitura" accept="image/*"/><br>
+						 </div>
+
+						<div class=" col-md-12" >
+							<label class="form-label" for="cidade">Nome Evento</label>
+							 <div class="input-group">
+								<div class="input-group-prepend">
+								<span class="input-group-text" id="basic-addon1"><i class="fa fa-users"></i> </span>
+								</div>
+								<input type="text" [(ngModel)]="evento.nome" class="form-control form-control-sm" placeholder="" aria-label="Nome" aria-describedby="basic-addon1">
+							</div>
+						 </div>
+ 						<div class=" col-md-4" >
+							<label class="form-label" for="data_inicio">Tipo da Cobrança</label>
+							<select [(ngModel)]="evento.tipo_cobranca" type="text" class="form-control form-control-sm" required [disabled]="modoLeitura" (change)="atualizarListaCategorias()">
+								<option *ngFor="let t of listaTipoCobranca" [value]="t.id">{{ t.descricao }}</option>
+							</select>
+						 </div>
+ 						<div class=" col-md-5" >
+							<label class="form-label" for="data_inicio">Categoria</label>
+							<select [(ngModel)]="evento.categoria " type="text" class="form-control form-control-sm" required [disabled]="modoLeitura" (change)="atualizarValor()">
+								<option *ngFor="let t of listaTipoCategoria" [value]="t.id">{{ t.descricao }}</option>
+							</select>
+						 </div>
+ 						<div class=" col-md-3" >
+							<label class="form-label" for="valor">Valor</label>
+							<input type="text" [(ngModel)]="evento.valor_socio" matInput prefix="R$ " mask="separator,2" thousandSeparator="." class="form-control form-control-sm" placeholder="" aria-label="Valor" disabled>
+						 </div>
+
+
+						<div class=" col-md-12">
+							<hr>
+						</div>
+						<div class=" col-md-3" >
+							<label class="form-label" for="data_inicio">Ativo ?</label>
+							<div class="form-check form-switch">
+								 <input class="form-check-input" type="checkbox" [(ngModel)]="checkBoxStatus" [checked]="evento.status == 'Ativo'" id="checkBoxELink">
+								 <label class="form-check-label" for="checkBoxELink">Sim</label>
+						   </div>
+						   <!--label class="form-label" for="data_inicio">Permitir Inadimplente ?</label>
+						   <div class="form-check form-switch">
+								<input class="form-check-input" type="checkbox" [(ngModel)]="checkBoxPermitirInadimplente" [checked]="evento.permitir_inadimplente == 'Ativo'" id="checkBoxPermitirInadimplente">
+								<label class="form-check-label" for="checkBoxPermitirInadimplente">Sim</label>
+						  </div-->
+
+						 </div>
+					 </div>
+				   </div>
+				</div>
+			 </div>
+		  </div>
+
+	   </div>
+	   <div class="modal-footer">
+				  <button type="button" class="btn btn-outline-primary" [disabled]="desativarBotaoSalvar == true" (click)="salvar()">SALVAR</button>
+		  <button type="button" class="btn btn-outline-danger" [hidden]="evento.id == ''" (click)="excluir()">Excluir</button>		  
+		  <button type="button" class="btn btn-outline-secondary" (click)="d('EXIT')">SAIR</button>	  
+	   </div>
+	</ng-template>
+	

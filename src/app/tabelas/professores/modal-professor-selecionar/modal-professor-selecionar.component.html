@@ -1,0 +1,60 @@
+@if (processando) {
+   <div class="loading">Loading&#8230;</div>
+   }
+   <div class="modal-header bg-secondary">
+      <h4 class="modal-title" id="modal-basic-title">
+         <i class="fa fa-check-square" aria-hidden="true"></i>
+          - Selecionar Professor
+      </h4>
+      <button type="button" class="close" aria-label="Close" (click)="activeModal.close()">
+      <span aria-hidden="true">&times;</span>
+      </button>
+   </div>
+   <div class="modal-body">
+      <div class="row">
+         <div class="col-md-12">
+            @for (alert of alerts; track alert) {
+            <ngb-alert [type]="alert.type" (closed)="closeAlert(alert)">{{ alert.message }}</ngb-alert>
+            }
+         </div>
+         <div class="col-12">
+				<label for="table-complete-search" class="col-xs-3 col-sm-auto col-form-label">Pesquisar:</label>
+				<input	id="table-complete-search"	type="text"	class="form-control" name="searchTerm" #campoPesquisa [(ngModel)]="searchTerm" (ngModelChange)="pesquisar()" (keydown.enter)="selecionar(lista[0])"	/><br>
+
+
+      <table class="table table-striped" id="excel-table">
+         <thead>
+           <tr >
+              <th scope="col">Nome</th>
+              <th scope="col">Celular</th>
+           </tr>				
+         </thead>
+         <tbody>
+
+           <tr (click)="selecionar(e)" *ngFor="let e of lista">
+              <td>
+                 <ngb-highlight class="textoTabela" [result]="e.nome" [term]="searchTerm" />
+              </td>
+              <td>
+                 <ngb-highlight class="textoTabela" [result]="e.tel2" [term]="searchTerm" />
+              </td>
+           </tr>
+         </tbody>
+       </table> 
+       <div class="d-flex justify-content-between p-2">
+         <ngb-pagination [collectionSize]="(paginacao.total)!" [(page)]="paginacao.page" [pageSize]="paginacao.pageSize" (pageChange)="pesquisar()">
+         </ngb-pagination>
+         <select class="form-select-sm" style="width: auto" name="pageSize" [(ngModel)]="paginacao.pageSize" >
+         <option [ngValue]="10">10 itens por página</option>
+         <option [ngValue]="100">100 itens por página</option>
+         <option [ngValue]="500">500 itens por página</option>
+         </select>
+       </div>
+       </div>
+</div>
+   </div>
+   <div class="modal-footer">
+      <a class="btn btn-outline-primary" (click)="openModal(null)">Novo </a>&nbsp;&nbsp;&nbsp;&nbsp;
+      <button type="button" class="btn btn-outline-primary" (click)="refresh()"><i class="fa fa-refresh" aria-hidden="true"></i></button>&nbsp;&nbsp;&nbsp;&nbsp;
+      <button type="button" class="btn btn-outline-secondary" (click)="activeModal.close()">SAIR</button>
+   </div> 

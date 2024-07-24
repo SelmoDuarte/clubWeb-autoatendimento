@@ -1,0 +1,494 @@
+@if (processando) {
+    <div class="loading">Loading&#8230;</div>
+    }
+    <div class="modal-header bg-primary">
+       <h4 class="modal-title" id="modal-basic-title">
+          <i class="fa fa-newspaper-o" aria-hidden="true"></i>
+          - Sócio
+       </h4>
+       <button type="button" class="close" aria-label="Close" (click)="activeModal.close()">
+       <span aria-hidden="true">&times;</span>
+       </button>
+    </div>
+    <div class="modal-body">
+       <div class="row">
+          <div class="col-md-12">
+             @for (alert of alerts; track alert) {
+             <ngb-alert [type]="alert.type" (closed)="closeAlert(alert)">{{ alert.message }}</ngb-alert>
+             }
+          </div>
+       </div>
+       <div class="row">
+          <div [hidden]="associado.titulo == null ">
+             
+             <div class="callout callout-info">
+                <div class="row g-2" [hidden]="associado.titulo == null ">
+                <div class="col-md-3">
+                    <img src="{{getPathFoto(associado.foto)}}" class="img-thumbnail foto">
+                </div>
+                <div class="col-md-9">
+                <div class="row">
+                   <div class="col-md-3">
+                      <label for="inputEmail4" class="form-label">Categoria</label>
+                     <select [(ngModel)]="associado.idcateg_soc" class="form-control form-select-sm form-control-sm" [disabled]="modoLeitura_SPD">
+                         <option value=""></option>
+                         <option *ngFor="let t of listaCategorias" [value]="t.id">{{ t.descricao}}</option>
+                         </select>
+                   </div>
+                   <div class="col-md-3">
+                      <label for="inputEmail4" class="form-label">Situação</label>
+                         <select [(ngModel)]="associado.idsituacao" class="form-control form-control-sm form-select-sm" [disabled]="modoLeitura">
+                         <option value=""></option>
+                         <option *ngFor="let t of listaSituacoes" [value]="t.id">{{ t.descricao}}</option>
+                         </select>
+                   </div>
+                   <div class="col-md-2">
+                      <label class="form-label">Matrícula</label>
+                      <input [(ngModel)]="associado.matr" type="text" class="form-control form-control-sm" [disabled]="modoLeitura" />
+                   </div>
+                   <div class="col-2">
+                      <label class="form-label">Título</label>
+                      <input [(ngModel)]="associado.titulo" type="text" class="form-control form-control-sm" [disabled]="modoLeitura" />
+                   </div>
+                   <div class="col-2">
+                      <label class="form-label">Admissão</label>
+                      <input [(ngModel)]="associado.dtadm" type="text" class="form-control form-control-sm" [disabled]="modoLeitura" />
+                   </div>
+                   <div class="col-md-9">
+                      <label class="form-label">Nome</label>
+                      <input [(ngModel)]="associado.nome" type="text" class="form-control form-control-sm" [disabled]="modoLeitura" />
+                   </div>
+                   <div class="col-md-3">
+                      <label class="form-label">Extra (Temp.)</label>
+                      <input [(ngModel)]="associado.spd" type="text" class="form-control form-control-sm" [disabled]="modoLeitura" />
+                   </div>
+                </div>
+                </div>
+                </div>
+             </div>
+             <div class="modal-footer">
+               <button type="button" class="btn btn-outline-primary" [hidden]="!modoLeitura_SPD" (click)="editar()">EDITAR</button>            
+                <button type="button" class="btn btn-outline-primary" [disabled]="modoLeitura_SPD == true" (click)="salvar()">SALVAR</button>
+                <button type="button" class="btn btn-outline-danger" [hidden]="modoLeitura ==  true" (click)="excluir()">Excluir</button>
+                <button type="button" class="btn btn-outline-secondary" (click)="activeModal.close()">SAIR</button>
+             </div>
+         
+             <div class="callout callout-detalhes">
+                <nav>
+                   <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                      <button class="nav-link active" id="nav-1-tab" data-bs-toggle="tab" data-bs-target="#nav-1" type="button" role="tab" aria-controls="nav-1" aria-selected="true"><i class="fa fa-user"></i> - Dados Pessoais</button>
+                      <button class="nav-link" id="nav-2-tab" data-bs-toggle="tab" data-bs-target="#nav-2" type="button" role="tab" aria-controls="nav-2" aria-selected="false"><i class="fa fa-id-card" aria-hidden="true"></i> - Dados Adicionais </button>
+                      <button class="nav-link" id="nav-3-tab" data-bs-toggle="tab" data-bs-target="#nav-3" type="button" role="tab" aria-controls="nav-3" aria-selected="false"><i class="fa fa-medkit" aria-hidden="true"></i> - Contato</button>
+                      <button class="nav-link" id="nav-4-tab" data-bs-toggle="tab" data-bs-target="#nav-4" type="button" role="tab" aria-controls="nav-4" aria-selected="false"><i class="fa fa-address-card" aria-hidden="true"></i> - Cartões</button>
+                      <button class="nav-link" id="nav-5-tab" data-bs-toggle="tab" data-bs-target="#nav-5" type="button" role="tab" aria-controls="nav-5" aria-selected="false"><i class="fa fa-graduation-cap" aria-hidden="true"></i> - Atividades</button>
+                      <button class="nav-link" id="nav-6-tab" data-bs-toggle="tab" data-bs-target="#nav-6" type="button" role="tab" aria-controls="nav-6" aria-selected="false"><i class="fa fa-users" aria-hidden="true"></i> - Dependentes</button>
+                      <button class="nav-link" id="nav-7-tab" data-bs-toggle="tab" data-bs-target="#nav-7" type="button" role="tab" aria-controls="nav-7" aria-selected="false"><i class="fa fa-money" aria-hidden="true"></i> - Financeiro</button>
+                   </div>
+                </nav>
+                <div class="tab-content" id="nav-tabContent">
+                   <!-- DADOS PESSOAIS -->
+                   <div class="tab-pane fade show active" id="nav-1" role="tabpanel" aria-labelledby="nav-1-tab">
+                      <div class="row g-2 callout callout-tab">
+                         <div class="col-md-4">
+                            <label class="form-label">Endereço</label>
+                            <input [(ngModel)]="associado.endereco" type="text" class="form-control form-control-sm" [disabled]="modoLeitura" />
+                         </div>
+                         <div class="col-2">
+                            <label class="form-label">Bairro</label>
+                            <input [(ngModel)]="associado.bairro" type="text" class="form-control form-control-sm" [disabled]="modoLeitura" />
+                         </div>
+                         <div class="col-2">
+                            <label class="form-label">CEP</label>
+                            <input [(ngModel)]="associado.cep" type="text" class="form-control form-control-sm" [disabled]="modoLeitura" />
+                         </div>
+                         <div class="col-md-3">
+                            <label class="form-label">Cidade</label>
+                               <select [(ngModel)]="associado.idcidade" class="form-control form-control-sm form-select-sm" [disabled]="modoLeitura">
+                               <option value=""></option>
+                               <option *ngFor="let t of listaCidades" [value]="t.id">{{ t.descricao}}</option>
+                               </select>
+                         </div>
+                         <div class="col-md-1">
+                            <label class="form-label">UF</label>
+                            <select [(ngModel)]="associado.idcidade" class="form-control form-control-sm form-select-sm" [disabled]="modoLeitura">
+                            <option value=""></option>
+                            <option *ngFor="let t of listaCidades" [value]="t.id">{{ t.uf}}</option>
+                            </select>
+                         </div>
+                         <div class="col-md-2">
+                            <label class="form-label">CPF</label>
+                            <input [(ngModel)]="associado.cpf" type="text" class="form-control form-control-sm" [disabled]="modoLeitura" />
+                         </div>
+                         <div class="col-md-2">
+                            <label class="form-label">RG</label>
+                            <input [(ngModel)]="associado.identidade" type="text" class="form-control form-control-sm" [disabled]="modoLeitura" />
+                         </div>
+                         <div class="col-md-2">
+                            <label class="form-label">O.E</label>
+                            <input [(ngModel)]="associado.orgao_emissor" type="text" class="form-control form-control-sm" [disabled]="modoLeitura" />
+                         </div>
+                         <div class="col-md-2">
+                            <label class="form-label">Nacionalidade</label>
+                            <input [(ngModel)]="associado.nacionalidade" type="text" class="form-control form-control-sm" [disabled]="modoLeitura" />
+                         </div>
+                         <div class="col-md-3">
+                            <label class="form-label">Naturalidade</label>
+                            <input [(ngModel)]="associado.naturalidade" type="text" class="form-control form-control-sm" [disabled]="modoLeitura" />
+                         </div>
+                         <div class="col-md-1">
+                            <label class="form-label">Trat.</label>
+                            <input [(ngModel)]="associado.tratamento" type="text" class="form-control form-control-sm" [disabled]="modoLeitura" />
+                         </div>
+                         <div class="col-md-2">
+                            <label class="form-label">Estado civil</label>
+                               <select [(ngModel)]="associado.idest_civil" class="form-control form-control-sm form-select-sm" [disabled]="modoLeitura">
+                               <option value=""></option>
+                               <option *ngFor="let t of listaEstadosCivil" [value]="t.id">{{ t.descricao}}</option>
+                               </select>
+                         </div>
+                         <div class="col-md-2">
+                            <label class="form-label">Escolaridade</label>
+                               <select [(ngModel)]="associado.idescolaridade" class="form-control form-control-sm form-select-sm" [disabled]="modoLeitura">
+                               <option value=""></option>
+                               <option *ngFor="let t of listaEscolaridades" [value]="t.id">{{ t.descricao}}</option>
+                               </select>
+                         </div>
+                         <div class="col-md-1">
+                            <label class="form-label">Cons.</label>
+                            <input [(ngModel)]="associado.flg_conselheiro" type="text" class="form-control form-control-sm" [disabled]="modoLeitura" />
+                         </div>
+                         <div class="col-md-1">
+                            <label class="form-label">Sexo</label>
+                            <input [(ngModel)]="associado.sexo" type="text" class="form-control form-control-sm" [disabled]="modoLeitura" />
+                         </div>
+                         <div class="col-md-2">
+                            <label class="form-label">Data Nascimento</label>
+                            <input [(ngModel)]="associado.dtnasc" type="text" class="form-control form-control-sm" [disabled]="modoLeitura" />
+                         </div>
+                         <div class="col-md-2">
+                            <label class="form-label">Celular</label>
+                            <input [(ngModel)]="associado.tel2" type="text" class="form-control form-control-sm" [disabled]="modoLeitura" />
+                         </div>
+                         <div class="col-md-2">
+                            <label class="form-label">Email</label>
+                            <input [(ngModel)]="associado.email" type="text" class="form-control form-control-sm" [disabled]="modoLeitura" />
+                         </div>
+                      </div>
+                   </div>
+                   <!-- FIM DADOS PESSOAIS -->
+                   <!-- DADOS ADICIONAIS -->
+                   <div class="tab-pane fade" id="nav-2" role="tabpanel" aria-labelledby="nav-2-tab">
+                      <div class="row g-2 callout callout-tab">
+                         <div class="col-md-6">
+                            <label class="form-label">Pai</label>
+                            <input [(ngModel)]="associado.nome_pai" type="text" class="form-control form-control-sm" [disabled]="modoLeitura" />
+                         </div>
+                         <div class="col-md-6">
+                            <label class="form-label">Mãe</label>
+                            <input [(ngModel)]="associado.nome_mae" type="text" class="form-control form-control-sm" [disabled]="modoLeitura" />
+                         </div>
+                      </div>
+                      <div class="row g-2  callout callout-tab">
+                         <div class="col-md-6">
+                            <label class="form-label">Empresa</label>
+                            <input type="text" class="form-control form-control-sm" [disabled]="modoLeitura" />
+                         </div>
+                         <div class="col-md-6">
+                            <label class="form-label">Profissão</label>
+                               <select [(ngModel)]="associado.identif_prof" class="form-control form-control-sm form-select-sm" [disabled]="modoLeitura">
+                               <option value=""></option>
+                               <option *ngFor="let t of listaProfissoes" [value]="t.id">{{ t.descricao}}</option>
+                               </select>
+                         </div>
+                      </div>
+                      <div class="row g-2  callout callout-tab">
+                         <div class="col-md-4">
+                            <label class="form-label">Endereço</label>
+                            <input [(ngModel)]="associado.endereco_cob" type="text" class="form-control form-control-sm" [disabled]="modoLeitura" />
+                         </div>
+                         <div class="col-md-3">
+                            <label class="form-label">Bairro</label>
+                            <input [(ngModel)]="associado.bairro_cob" type="text" class="form-control form-control-sm" [disabled]="modoLeitura" />
+                         </div>
+                         <div class="col-md-2">
+                            <label class="form-label">CEP</label>
+                            <input [(ngModel)]="associado.cep_cob" type="text" class="form-control form-control-sm" [disabled]="modoLeitura" />
+                         </div>
+                         <div class="col-md-2">
+                            <label class="form-label">Cidade</label>
+                               <select [(ngModel)]="associado.idcidade_cob" class="form-control form-control-sm form-select-sm" [disabled]="modoLeitura">
+                               <option value=""></option>
+                               <option *ngFor="let t of listaCidades" [value]="t.id">{{ t.descricao}}</option>
+                               </select>
+                         </div>
+                         <div class="col-md-1">
+                            <label class="form-label">UF</label>
+                            <select [(ngModel)]="associado.idcidade_cob" class="form-control form-control-sm form-select-sm" [disabled]="modoLeitura">
+                            <option value=""></option>
+                            <option *ngFor="let t of listaCidades" [value]="t.id">{{ t.uf}}</option>
+                            </select>
+                         </div>
+                         <div class="col-md-9">
+                            <div class="form-check">
+                               <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" [checked]="associado.envia_boleto == 'S'" />
+                               <label class="form-check-label" for="flexCheckChecked">
+                               Enviar Boleto
+                               </label>
+                            </div>
+                            <div class="form-check">
+                               <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" [checked]="associado.flg_mes_seguinte == 'S'" />
+                               <label class="form-check-label" for="flexCheckChecked">
+                               A Cobrança deste sócio será gerada com vencimento no mês seguinte
+                               </label>
+                            </div>
+                            <div class="form-check">
+                               <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" [checked]="associado.flg_isento == 'S'" />
+                               <label class="form-check-label" for="flexCheckChecked">
+                               Sócio isento de mensalidade
+                               </label>
+                            </div>
+                            <div class="form-check">
+                               <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" [checked]="associado.flg_bloquear_consumo == 'S'" />
+                               <label class="form-check-label" for="flexCheckChecked">
+                               Bloquear consumo de Produtos
+                               </label>
+                            </div>
+                         </div>
+                         <div class="col-md-3">
+                            <label class="form-label">Layout Boleto</label>
+                               <select [(ngModel)]="associado.idlayout" class="form-control form-control-sm form-select-sm" [disabled]="modoLeitura">
+                               <option value=""></option>
+                               <option *ngFor="let t of listaLayoutsBoletos" [value]="t.id">{{ t.descricao}}</option>
+                               </select>
+                         </div>
+                      </div>
+                   </div>
+                   <!-- FIM DADOS ADICIONAIS -->
+                   <!-- DADOS EMERGENCIA -->
+                   <div class="tab-pane fade" id="nav-3" role="tabpanel" aria-labelledby="nav-3-tab">
+                      <div class="row g-2 callout callout-tab">
+                         <div class="col-md-4">
+                            <label class="form-label">Nome Familiar 1</label>
+                            <input [(ngModel)]="associado.nomefam1emerg" type="text" class="form-control form-control-sm" [disabled]="modoLeitura" />
+                         </div>
+                         <div class="col-md-2">
+                            <label class="form-label">Telefone Familiar 1</label>
+                            <input [(ngModel)]="associado.telfam1emerg" type="text" class="form-control form-control-sm" [disabled]="modoLeitura" />
+                         </div>
+                         <div class="col-md-4">
+                            <label class="form-label">Nome Familiar 2</label>
+                            <input [(ngModel)]="associado.nomefam2emerg" type="text" class="form-control form-control-sm" [disabled]="modoLeitura" />
+                         </div>
+                         <div class="col-md-2">
+                            <label class="form-label">Telefone Familiar 2</label>
+                            <input [(ngModel)]="associado.telfam2emerg" type="text" class="form-control form-control-sm" [disabled]="modoLeitura" />
+                         </div>
+                         <div class="col-md-12">
+                            <label class="form-label">Observação</label>
+                            <input [(ngModel)]="associado.obsemergencia" type="text" class="form-control form-control-sm" [disabled]="modoLeitura" />
+                         </div>
+                      </div>
+                   </div>
+                   <!-- FIM DADOS EMERGENCIA -->
+                   <!-- DADOS EMISSÃO DE CARTOES -->
+                   <div class="tab-pane fade" id="nav-4" role="tabpanel" aria-labelledby="nav-4-tab">
+                      <div class="row g-2">
+                         <div class="col-md-12   callout callout-tab">
+                            <label class="form-label"></label>
+                            Cartão Social
+                            <table class="table table-striped">
+                               <thead>
+                                  <tr>
+                                     <th scope="col">Via</th>
+                                     <th scope="col">Data Pedido</th>
+                                     <th scope="col">Impressão</th>
+                                     <th scope="col">Entrega</th>
+                                     <th scope="col">Usuario</th>
+                                     <th scope="col">Documento</th>
+                                     <th scope="col">Validade</th>
+                                  </tr>
+                               </thead>
+                               <tbody>
+                                  <tr *ngFor="let a of associado.listaCartoesSocial">
+                                     <td>{{a.via}}</td>
+                                     <td>{{a.dt_pedido}}</td>
+                                     <td>{{a.dt_entrega}}</td>
+                                     <td>{{a.dt_impressao}}</td>
+                                     <td></td>
+                                     <td></td>
+                                     <td>{{a.dt_validade}}</td>
+                                  </tr>
+                               </tbody>
+                            </table>
+                         </div>
+                         <div class="col-md-12   callout callout-tab">
+                            <label class="form-label"></label>
+                            Acesso Temporário
+                            <table class="table table-striped">
+                               <thead>
+                                  <tr>
+                                     <th scope="col">Data Emissão</th>
+                                     <th scope="col">Val. Inicial</th>
+                                     <th scope="col">Val. Final</th>
+                                     <th scope="col">Usuário</th>
+                                     <th scope="col">Estado</th>
+                                  </tr>
+                               </thead>
+                               <tbody>
+                                  <tr *ngFor="let a of associado.listaAcessosTemporario">
+                                     <td>{{a.dt_emissa}}</td>
+                                     <td>{{a.dt_ini_val}}</td>
+                                     <td>{{a.dt_fim_val}}</td>
+                                     <td></td>
+                                     <td></td>
+                                  </tr>
+                               </tbody>
+                            </table>
+                         </div>
+                         <!--div class="col-md-6">
+                            <label class="form-label"></label>
+                            <span class="badge rounded-pill bg-secondary">Cartão Estacionamento</span>
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Via</th>
+                                        <th scope="col">Data Pedido</th>
+                                        <th scope="col">Impressão</th>
+                                        <th scope="col">Entrega</th>
+                                        <th scope="col">Usuario</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let a of associado.listaCartoesEstacionamento">
+                                        <td>{{a.via}}</td>
+                                        <td>{{a.dt_pedido}}</td>
+                                        <td>{{a.dt_entrega}}</td>
+                                        <td>{{a.dt_impressao}}</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>{{a.dt_validade}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            </div-->
+                      </div>
+                   </div>
+                   <!-- FIM DADOS EMISSÃO CARTOES -->
+                   <!-- DADOS ATIVIDADES E CURSOS -->
+                   <div class="tab-pane fade" id="nav-5" role="tabpanel" aria-labelledby="nav-5-tab">
+                     <table class="table table-striped">
+                        <thead>
+                           <tr class="tituloTabela">
+                              <th scope="col">Atividade</th>
+                              <th scope="col">Turma</th>
+                              <th scope="col">Estado</th>
+                              <th scope="col">Inicio</th>
+                              <th scope="col">Termino</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <tr *ngFor="let a of associado.listaAtividades" >
+                              <td>{{a.atividade_descricao}}</td>
+                              <td>{{a.turma_descricao}}</td>
+                              <td>{{a.estado}}</td>
+                              <td>{{a.dt_ini}}</td>
+                              <td>{{a.dt_fim}}</td>
+                           </tr>
+                        </tbody>
+                     </table>
+
+                   </div>
+                   <!-- FIM ATIVIDADES E CURSOS -->
+                   <!-- DADOS DEPENDENTES -->
+                   <div class="tab-pane fade" id="nav-6" role="tabpanel" aria-labelledby="nav-6-tab">
+                      <div class="row g-2">
+                         <div class="col-md-12">
+                            <br><br>
+                            <table class="table table-striped">
+                               <thead>
+                                  <tr class="tituloTabela">
+                                     <th scope="col">Matricula</th>
+                                     <th scope="col">Nome</th>
+                                     <th scope="col">Sexo</th>
+                                     <th scope="col">Nascimento</th>
+                                     <th scope="col">Parentesco</th>
+                                     <th scope="col">Ativo</th>
+                                     <th scope="col">Recadastrado</th>
+                                     <th scope="col">Data Admissão</th>
+                                  </tr>
+                               </thead>
+                               <tbody>
+                                  <tr *ngFor="let a of associado.listaDependentes" (click)="openModalDependente(a)">
+                                     <td>{{a.matricula}}</td>
+                                     <td>{{a.nome}}</td>
+                                     <td>{{a.sexo}}</td>
+                                     <td>{{a.dtnasc}}</td>
+                                     <td>{{getDescricaoParentesco(a.idparentesco)}}</td>
+                                     <td>{{a.flg_ativo}}</td>
+                                     <td>{{a.flg_recad}}</td>
+                                     <td>{{a.dt_admissao}}</td>
+                                  </tr>
+                               </tbody>
+                            </table>
+                         </div>
+                      </div>
+                   </div>
+                   <!-- FIM DADOS associadoS -->
+                   <!-- DADOS FINANCEIROS -->
+                   <div class="tab-pane fade" id="nav-7" role="tabpanel" aria-labelledby="nav-7-tab">
+                      <div class="row g-2">
+                         <div class="col-md-12">
+                            <br>
+                            <div class="form-check">
+                               <input class="form-check-input" type="checkbox" value="" id="checkboxLancamentosAbertos" [checked]="filtro.debitosAbertos == 'S'"  (change)="filtroListaFinanceira()"  />
+                               <label class="form-check-label" for="flexCheckChecked">
+                               <i>Somente Lançamentos Aberto</i>
+                               </label>
+                            </div>
+                            <hr>
+                            <table class="table table-striped">
+                               <thead>
+                                  <tr class="tituloTabela">
+                                     <th scope="col">Ref.</th>
+                                     <th scope="col">Tipo</th>
+                                     <th scope="col">Categoria</th>
+                                     <th scope="col">Desc.</th>
+                                     <th scope="col">Juros</th>
+                                     <th scope="col">Total</th>
+                                     <th scope="col">Vencimento</th>
+                                     <th scope="col">Estado</th>
+                                     <th scope="col">Pagamento</th>
+                                     <th scope="col">Observação</th>
+                                  </tr>
+                               </thead>
+                               <tbody>
+                                  <tr *ngFor="let a of associado.listaFinanceiro" class="textoTabelaFinanceira" >
+                                     <td [ngClass]="'estado-'+ a.estado">{{getMesAnoLancamento(a.ano_mes)}}</td>
+                                     <td [ngClass]="'estado-'+ a.estado">{{a.tipo}}</td>
+                                     <td [ngClass]="'estado-'+ a.estado">{{a.categoria}}</td>
+                                     <td [ngClass]="'estado-'+ a.estado">{{a.descontos | currency : 'BRL'}}</td>
+                                     <td [ngClass]="'estado-'+ a.estado">{{a.juros | currency : 'BRL'}}</td>
+                                     <td [ngClass]="'estado-'+ a.estado">{{a.valor | currency : 'BRL'}}</td>
+                                     <td [ngClass]="'estado-'+ a.estado">{{a.dtvenc}}</td>
+                                     <td [ngClass]="'estado-'+ a.estado">{{a.estado}}</td>
+                                     <td [ngClass]="'estado-'+ a.estado">{{a.dtpag}}</td>
+                                     <td [ngClass]="'estado-'+ a.estado">{{a.obs}}</td>
+                                  </tr>
+                               </tbody>
+                            </table>
+                         </div>
+                      </div>
+                   </div>
+                   <!-- FIM DADOS FINANCEIROS -->
+                </div>
+             </div>
+          </div>
+       </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-primary" [hidden]="!modoLeitura_SPD" (click)="editar()">EDITAR</button>            
+       <button type="button" class="btn btn-outline-primary" [disabled]="modoLeitura_SPD == true" (click)="salvar()">SALVAR</button>
+       <button type="button" class="btn btn-outline-danger" [hidden]="modoLeitura ==  true" (click)="excluir()">Excluir</button>
+       <button type="button" class="btn btn-outline-secondary" (click)="activeModal.close()">SAIR</button>
+    </div>
+    

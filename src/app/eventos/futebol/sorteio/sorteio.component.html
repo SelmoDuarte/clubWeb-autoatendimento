@@ -1,0 +1,111 @@
+@if (processando) {
+	<div class="loading">Loading&#8230;</div>
+}
+
+
+<div class="container" 	*ngFor="let time of listaTimes">
+    <div class="row">
+       <h1>Time - {{time.nome}}</h1>
+       <div class="col-md-5">
+        <div class="">
+          <div class="field">
+             <div class="player goalkeeper">Goleiro</div>
+             <div class="player defender">Defensor 1</div>
+             <div class="player defender">Defensor 2</div>
+             <div class="player defender">Defensor 3</div>
+             <div class="player midfielder">Meio-campista 1</div>
+             <div class="player midfielder">Meio-campista 2</div>
+             <div class="player midfielder">Meio-campista 3</div>
+             <div class="player forward">Atacante 1</div>
+             <div class="player forward">Atacante 2</div>
+             <div class="player forward">Atacante 3</div>
+             <div class="player forward">Atacante 4</div>
+          </div>
+
+
+          </div>
+       </div>
+       <div class="col-md-7">
+                <div class="list list-row" *ngFor="let posicao of listaPosicoes">
+                   <div class="list-item">
+                      <div><span class="w-40 avatar gd-{{posicao.grupo}}">{{posicao.sigla}}</span></div>
+                      <div class="flex">
+                         <a class="item-author text-color" data-abc="true">{{getAtletaPosicao(time,posicao).nome}}</a>
+                         <div class="item-except text-muted text-sm h-1x">{{posicao.descricao}}</div>
+                      </div>
+                      <div class="no-wrap">
+                         <div class="item-date text-muted text-sm d-none d-md-block"></div>
+                      </div>
+                      <div>
+                         <div class="item-action dropdown">
+                            <a data-toggle="dropdown" class="text-muted" data-abc="true">
+                              <div class="ratings">
+                                 <i class="fa fa-star" *ngFor="let loop3 of getAtletaPosicao(time,posicao).avaliacao "></i>
+                             </div>
+                           </a>
+                         </div>
+                      </div>
+                   </div>                   
+              </div>
+              <hr>
+              <table class="table">
+               <tr>
+                  <td>
+                     Qtd Jogadores:
+                   </td>
+                   <td> 
+                     {{time.total_atletas}}
+                   </td>  
+                   <td>
+                   </td>
+                   <td>
+                  </td>
+
+                   <td>
+                     Nota Time:
+                   </td>
+                   <td> 
+                     <div class="ratings">
+                        <i class="fa fa-star" *ngFor="let loop3 of time.avaliacao"></i>
+                    </div>
+                   </td>  
+               </tr>
+               <tr>
+                  <td>
+                     Defesa:
+                   </td>
+                   <td> 
+                     <div class="ratings">
+                        <i class="fa fa-star" *ngFor="let loop3 of time.avaliacao_defesa"></i>
+                    </div>
+
+                   </td>  
+                  <td>
+                     Meio campo:
+                   </td>
+                   <td> 
+                     <div class="ratings">
+                        <i class="fa fa-star" *ngFor="let loop3 of time.avaliacao_meio"></i>
+                    </div>
+
+                   </td>  
+                  <td>
+                     Ataque:
+                   </td>
+                   <td> 
+                     <div class="ratings">
+                        <i class="fa fa-star" *ngFor="let loop3 of time.avaliacao_ataque"></i>
+                    </div>
+
+                   </td>  
+               </tr>
+   
+              </table>
+   
+       </div>
+       <div class="col-md-12">
+         <hr>
+       </div>
+    </div>
+ </div>
+ 

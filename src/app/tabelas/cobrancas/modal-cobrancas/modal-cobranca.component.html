@@ -1,0 +1,38 @@
+@if (processando) {
+   <div class="loading">Loading&#8230;</div>
+   }
+   <div class="modal-header alert alert-dark">
+      <h4 class="modal-title" id="modal-basic-title">
+         <i class="fa fa-text-width" aria-hidden="true"></i>
+          - Cobrança
+      </h4>
+      <button type="button" class="close" aria-label="Close" (click)="activeModal.close()">
+      <span aria-hidden="true">&times;</span>
+      </button>
+   </div>
+   <div class="modal-body">
+      <div class="row">
+         <div class="col-md-12">
+            @for (alert of alerts; track alert) {
+            <ngb-alert [type]="alert.type" (closed)="closeAlert(alert)">{{ alert.message }}</ngb-alert>
+            }
+         </div>
+      </div>
+      <div class="row">
+         <div class="callout callout-info">
+            <div class="row g-2" >
+               <div class="col-md-12">
+                  <label class="form-label">Descricao</label>
+                  <input [(ngModel)]="cobranca.DESCR" type="text" #campoInicial id="nome" class="form-control form-control-sm" [disabled]="modoLeitura" />
+               </div>
+            </div>
+         </div>         
+      </div>
+   </div>
+   <div class="modal-footer">
+      <button type="button" class="btn btn-outline-danger" [hidden]="modoLeitura || id == null" (click)="excluir()">EXCLUIR</button>      
+      <button type="button" class="btn btn-outline-primary" [hidden]="!modoLeitura" (click)="editar()">EDITAR</button>      
+      <button type="button" class="btn btn-outline-success" [hidden]="modoLeitura" (click)="salvar()">SALVAR</button>
+      <button type="button" class="btn btn-outline-secondary" (click)="activeModal.close()">SAIR</button>
+   </div>
+   

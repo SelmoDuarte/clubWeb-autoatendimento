@@ -1,0 +1,232 @@
+<div class="loading" [hidden]="processando != true">Loading&#8230;
+</div>
+<div>
+    <div class="container mt-5">
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-9 card">
+                <div class="bg-white">
+                    <ul class="nav nav-tabs nav-fill step" id="myTab" role="tablist" [(hidden)]="desativar">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link faseAtiva" id="faq_tab_1-tab" (click)="gotoStepTo(1)" type="button" role="tab">
+                                <div class="d-flex flex-column lh-lg"><i class="bx bxs-plane-alt"></i> <span>1 - EVENTOS </span></div>
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="faq_tab_2-tab"  data-bs-toggle="tab" (click)="gotoStepTo(2)" data-bs-target="#faq_tab_2" type="button" role="tab" aria-controls="faq_tab_2" aria-selected="false">
+                                <div class="d-flex flex-column lh-lg"><i class="bx bxs-shopping-bag"></i> <span>2 - CADASTRO</span></div>
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="faq_tab_3-tab" data-bs-toggle="tab" (click)="gotoStepTo(3)" data-bs-target="#faq_tab_3" type="button" role="tab" aria-controls="faq_tab_3" aria-selected="false">
+                                <div class="d-flex flex-column lh-lg"><i class="bx bx-check-circle"></i> <span>3  - RESUMO</span></div>
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="faq_tab_4-tab" data-bs-toggle="tab" (click)="gotoStepTo(4)" data-bs-target="#faq_tab_4" type="button" role="tab" aria-controls="faq_tab_3" aria-selected="false">
+                                <div class="d-flex flex-column lh-lg"><i class="bx bx-check-circle"></i> <span>4 - PAGAMENTO</span></div>
+                            </button>
+                        </li>
+
+                    </ul>
+
+                    <div class="tab-content" id="myTabContent">
+                        <div class="col-md-12">
+                            <br />
+                            @for (alert of alerts; track alert) {
+                            <ngb-alert [type]="alert.type" (closed)="closeAlert(alert)">{{ alert.message }}</ngb-alert>
+                            }
+                        </div>
+                        <div class="" id="faq_tab_1" role="tabpanel" aria-labelledby="faq_tab_1-tab" [(hidden)]="desativar">
+                            <div class="container p-3">
+                                <div class="row" *ngFor="let l of listaTiposIngresso">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <div class="alert alert-light" role="alert">
+                                                    <p class="tituloEvento">
+                                                        <b>{{l.descricao}}</b> <br />
+                                                        <span class="descricaoEvento">{{l.mensagem}}</span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="col-7 col-md-2">
+                                                <div class="alert alert-light" role="alert">
+                                                    <div class="input-group">
+                                                        <button class="btn btn-link px-2" (click)="qtdEvento(l.evento_id, l.id, -1)">
+                                                            <i class="fa fa-minus"></i>
+                                                        </button>
+                                                        <input id="qtd-{{l.evento_id}}-{{l.id}}" name="quantity" type="text" disabled [value]="l.qtd_ingresso" class="form-control form-control-sm qtd texto-centro" />
+                                                        <button class="btn btn-link px-2" (click)="qtdEvento(l.evento_id, l.id,1)">
+                                                            <i class="fa fa-plus" aria-hidden="true"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-5 col-md-2">
+                                                <div class="alert alert-light" role="alert">
+                                                    <table class="table">
+                                                        <tr>
+                                                            <td class="float-end">
+                                                                {{l.valor | currency : 'BRL'}}
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-7 col-md-10">
+                                        <b> Valor Total</b>
+                                    </div>
+                                    <div class="col-5 col-md-2">
+                                        <table class="table">
+                                            <tr>
+                                                <td class="float-end alert-secondary">
+                                                    <b>{{valorTotal | currency : 'BRL'}}</b>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div class="col-12">
+                                        <hr>
+                                        <div class="d-flex justify-content-end"><button type="button" class="btn btn-primary" (click)="proximo(1)">PRÓXIMO</button>&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ocultar" id="faq_tab_2" role="tabpanel" aria-labelledby="faq_tab_2-tab">
+                            <div class="container">
+                                <div class="row" *ngFor="let m of listaIngressos">
+                                    <div class="col-md-12 espaco-linha">
+                                        <div class="alert alert-secondary">
+                                            {{m.id}} - {{m.descricao}}
+                                        </div>
+                                        <div class="form-check form-switch" [hidden]="m.id =='1'">
+                                            <input class="form-check-input" type="checkbox" id="checkBoxMAnt-{{m.id}}" (click)="copiarDadosAnterior(m.id)" [checked]="m.mesmoAnterior == 'Sim'">
+                                            <label class="form-check-label" for="checkBoxELink"><span class="descricaoEvento">Mesmo Anterior</span></label>
+                                      </div>
+           
+                                    </div>
+                                    
+                                    <div class="col-md-3 espaco-linha" [hidden]="ocultarDadosPessoas(m.id)">
+                                        <div class="input-group">
+                                            <span class="input-group-text" id="basic-addon1"><i class="fa fa-address-card" aria-hidden="true"></i></span>
+                                            <input  id="cpf-{{m.id}}" matInput mask="000.000.000-00" type="text" placeholder="CPF" class="form-control" required />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-9 espaco-linha" [hidden]="ocultarDadosPessoas(m.id)">
+                                        <div class="form-group input-group">
+                                            <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+                                            <input id="nome-{{m.id}}" class="form-control" placeholder="Nome" type="text" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 espaco-linha" [hidden]="ocultarDadosPessoas(m.id)">
+                                        <div class="input-group">
+                                           <span class="input-group-text" id="basic-addon1"><i class="fa fa-address-card-o" aria-hidden="true"></i></span>
+                                           <input id="numero_titulo-{{m.id}}"  matInput mask="000000" type="text" placeholder="Nº Título Minas" class="form-control"  />
+                                        </div>
+                                     </div>
+                
+                                      <div class="col-md-4 espaco-linha" [hidden]="ocultarDadosPessoas(m.id)">
+                                         <div class="input-group">
+                                            <span class="input-group-text" id="basic-addon1"><i class="fa fa-mobile"></i> </span>
+                                            <input type="text" id="celular-{{m.id}}" class="form-control" placeholder="Celular" matInput mask="(00) 00000-0000" aria-label="Celular" aria-describedby="basic-addon1" />
+                                         </div>
+                                      </div>
+                                      <div class="col-md-4 espaco-linha" [hidden]="ocultarDadosPessoas(m.id)">
+                                         <div class="input-group">
+                                            <span class="input-group-text" id="basic-addon1"><i class="fa fa-envelope"></i> </span>
+                                            <input type="text" id="email-{{m.id}}" class="form-control" placeholder="E-mail" aria-label="Email" aria-describedby="basic-addon1" />
+                                         </div>
+                                      </div>
+                
+                                </div>
+                                <div class="col-12"><hr>
+                                    <div class="d-flex justify-content-end">
+                                        <button type="button" class="btn btn-primary" (click)="proximo(-1)">ANTERIOR</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <button type="button" class="btn btn-primary" (click)="proximo(1)">PRÓXIMO</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    </div>
+                                </div>
+                                <br>
+                            </div>
+                        </div>
+                        <div class="ocultar" id="faq_tab_3" role="tabpanel" aria-labelledby="faq_tab_3-tab">
+                            <div class="container p-3 mt-4">
+                                <div class="container">
+                                    <div class="row">
+                                               <div class="col-12">
+                                                   <div class="widget">
+                                                       <h4 class="widget-title">Resumo do Pedido:</h4>
+                                                       <div class="summary-block"  *ngFor="let l of listaTiposIngresso">
+                                                           <div class="summary-content" [hidden]="l.qtd_ingresso == 0">
+                                                               <div class="summary-head">
+                                                                    <div class="alert alert-secondary">
+                                                                        ({{l.qtd_ingresso}})  {{l.descricao}}
+
+                                                                    </div>                                                                        
+                                                                </div>
+                                                               <!--div class="summary-price">
+                                                                   <p class="summary-text">{{l.valor | currency:'BRL':true:'1.2-2'}}</p>
+                                                               </div-->
+                                                                <div class="summary-block">
+                                                                    <table class="table table-striped">
+                                                                        <tr>
+                                                                            <th scope="col">CPF</th>
+                                                                            <th scope="col">Nome</th>
+                                                                            <th scope="col">Nº Titulo</th>
+                                                                            <th scope="col">Celular</th>
+                                                                            <th scope="col">Email</th>                                                                            
+                                                                        </tr>
+                                                                        <tr *ngFor="let p of getListaPessoasEvento(l.evento_id, l.tipo)">
+                                                                            <td>{{p.cpf}}</td>
+                                                                             <td>{{p.nome}}</td>
+                                                                             <td>{{p.numero_titulo}}</td>
+                                                                             <td>{{p.celular}}</td>
+                                                                             <td>{{p.email}}</td>
+                                                                         </tr>
+                                                                       </table>      
+                                                                 </div>       
+                                                           </div>
+                                                       </div>
+                                                       <div class="summary-block">
+                                                            <div class="row">
+                                                                <div class="col-7 col-md-10">
+                                                                    <b> Valor Total</b>
+                                                                </div>
+                                                                <div class="col-5 col-md-2">
+                                                                    <table class="table">
+                                                                        <tr>
+                                                                            <td class="float-end alert-secondary">
+                                                                                <b>{{valorTotal | currency : 'BRL'}}</b>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                       </div>
+                                                   </div>
+                                                  
+                                               </div>
+                                           </div>
+                                   
+                                   
+                                   
+                                   
+                               </div>
+                               <div class="col-12">
+                                <div class="d-flex justify-content-end">
+                                    <button type="button" class="btn btn-primary" (click)="proximo(-1)">ANTERIOR</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <button type="button" class="btn btn-primary" (click)="proximo(1)" [disabled]="compra_finalizada">CONCLUIR</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <a class="btn btn-outline-primary" [routerLink]="['/geral', '1']">SAIR</a>&nbsp;&nbsp;&nbsp;&nbsp;                                    
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

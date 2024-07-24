@@ -1,0 +1,266 @@
+@if (processando) {
+    <div class="loading">Loading&#8230;</div>
+    }
+    <div class="modal-header alert alert-dark">
+       <h4 class="modal-title" id="modal-basic-title">
+          <i class="fa fa-users" aria-hidden="true"></i>
+          Dependente
+       </h4>
+       <button type="button" class="close" aria-label="Close" (click)="activeModal.close()">
+       <span aria-hidden="true">&times;</span>
+       </button>
+    </div>
+    <div class="modal-body">
+                   <div class="row">
+                      <div class="col-md-12">
+                         @for (alert of alerts; track alert) {
+                         <ngb-alert [type]="alert.type" (closed)="closeAlert(alert)">{{ alert.message }}</ngb-alert>
+                         }
+                      </div>
+                   </div>
+                   <div class="row">
+                      <div class="callout callout-info">
+                        <div class="row g-2" >
+                           <div class="col-md-3">
+                              <img [hidden]="dependente.foto == ''" src="{{getPathFoto(dependente.foto)}}" alt="FOTO NÃO CADASTRADA" class="img-thumbnail foto">
+                          </div>
+                          <div class="col-md-9">
+                         <div class="row g-2" >
+          
+                            <div class="col-md-3">
+                               <label class="form-label">Matrícula</label>
+                               <input [(ngModel)]="dependente.matricula" type="text" class="form-control form-control-sm" [disabled]="modoLeitura" />
+                            </div>
+                            <div class="col-md-9">
+                               <label class="form-label">Nome</label>
+                               <input [(ngModel)]="dependente.nome" type="text" class="form-control form-control-sm" [disabled]="modoLeitura" />
+                            </div>
+                            <div class="col-md-7">
+                               <label class="form-label">Parentesco</label>
+                                  <select [(ngModel)]="dependente.idparentesco" class="form-control form-control-sm form-select-sm" [disabled]="modoLeitura">
+                                  <option value=""></option>
+                                  <option *ngFor="let t of listaParentesco" [value]="t.id">{{ t.descricao}}</option>
+                                  </select>
+                            </div>
+                            <div class="col-md-2">
+                              <label class="form-label">Sexo</label>
+                              <input [(ngModel)]="dependente.sexo" type="text" class="form-control form-control-sm" [disabled]="modoLeitura" />
+                           </div>
+                           <div class="col-md-3">
+                              <label class="form-label">Data Nascimento</label>
+                              <input [(ngModel)]="dependente.dtnasc" type="text" class="form-control form-control-sm" [disabled]="modoLeitura" />
+                           </div>
+
+                         </div>
+                         </div>
+                         </div>
+                      </div>
+                      <!-- TABS DETALHES-->
+                      <div class="callout callout-detalhes">
+                         <nav>
+                            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                               <button class="nav-link active" id="nav-D1-tab" data-bs-toggle="tab" data-bs-target="#nav-D1" type="button" role="tab" aria-controls="nav-D1" aria-selected="true"><i class="fa fa-user"></i> - Dados Pessoais</button>
+                               <button class="nav-link" id="nav-D2-tab" data-bs-toggle="tab" data-bs-target="#nav-D2" type="button" role="tab" aria-controls="nav-D2" aria-selected="false">
+                               <i class="fa fa-id-card" aria-hidden="true"></i> - Dados Adicionais
+                               </button>
+                               <button class="nav-link" id="nav-D3-tab" data-bs-toggle="tab" data-bs-target="#nav-D3" type="button" role="tab" aria-controls="nav-D3" aria-selected="false">
+                               <i class="fa fa-address-card" aria-hidden="true"></i> - Cartões
+                               </button>
+                               <button class="nav-link" id="nav-D4-tab" data-bs-toggle="tab" data-bs-target="#nav-D4" type="button" role="tab" aria-controls="nav-D4" aria-selected="false">
+                               <i class="fa fa-graduation-cap" aria-hidden="true"></i> - Atividades
+                               </button>
+                            </div>
+                         </nav>
+                         <div class="tab-content" id="nav-tabContent">
+                            <!-- DADOS PESSOAIS -->
+                            <div class="tab-pane fade show active" id="nav-D1" role="tabpanel" aria-labelledby="nav-D1-tab">
+                               <div class="row g-2 callout callout-tab">
+                                  <div class="col-md-4">
+                                     <label class="form-label">CPF</label>
+                                     <input [(ngModel)]="dependente.cpf" type="text" class="form-control form-control-sm" [disabled]="modoLeitura" />
+                                  </div>
+                                  <div class="col-md-4">
+                                    <label class="form-label">Celular</label>
+                                    <input [(ngModel)]="dependente.tel2" type="text" class="form-control form-control-sm" [disabled]="modoLeitura" />
+                                 </div>
+                                 <div class="col-md-4">
+                                    <label class="form-label">Email</label>
+                                    <input [(ngModel)]="dependente.email" type="text" class="form-control form-control-sm" [disabled]="modoLeitura" />
+                                 </div>
+
+                                  <div class="col-md-3">
+                                     <label class="form-label">RG</label>
+                                     <input [(ngModel)]="dependente.identidade" type="text" class="form-control form-control-sm" [disabled]="modoLeitura" />
+                                  </div>
+                                  <div class="col-md-2">
+                                     <label class="form-label">O.E</label>
+                                     <input [(ngModel)]="dependente.orgao_emissor" type="text" class="form-control form-control-sm" [disabled]="modoLeitura" />
+                                  </div>
+                                  <div class="col-md-4">
+                                     <label class="form-label">Estado civil</label>
+                                        <select [(ngModel)]="dependente.idest_civil" class="form-control form-control-sm form-select-sm" [disabled]="modoLeitura">
+                                        <option value=""></option>
+                                        <option *ngFor="let t of listaEstadosCivil" [value]="t.id">{{ t.descricao}}</option>
+                                        </select>
+                                  </div>
+                                  <div class="col-md-3">
+                                     <label class="form-label">Sexo</label>
+                                     <input [(ngModel)]="dependente.sexo" type="text" class="form-control form-control-sm" [disabled]="modoLeitura" />
+                                  </div>
+                               </div>
+                            </div>
+                            <!-- FIM DADOS PESSOAIS -->
+                            <!-- DADOS ADICIONAIS -->
+                            <div class="tab-pane fade" id="nav-D2" role="tabpanel" aria-labelledby="nav-D2-tab">
+
+                              <div class="row g-2 callout callout-tab">
+                              <div class="col-md-4">
+                                 <label class="form-label">Endereço</label>
+                                 <input [(ngModel)]="dependente.endereco" type="text" class="form-control form-control-sm" [disabled]="modoLeitura" />
+                              </div>
+                              <div class="col-3">
+                                 <label class="form-label">Bairro</label>
+                                 <input [(ngModel)]="dependente.bairro" type="text" class="form-control form-control-sm" [disabled]="modoLeitura" />
+                              </div>
+                              <div class="col-2">
+                                 <label class="form-label">CEP</label>
+                                 <input [(ngModel)]="dependente.cep" type="text" class="form-control form-control-sm" [disabled]="modoLeitura" />
+                              </div>
+                              <div class="col-md-2">
+                                 <label class="form-label">Cidade</label>
+                                    <select [(ngModel)]="dependente.idcidade" class="form-control form-control-sm form-select-sm" [disabled]="modoLeitura">
+                                    <option value=""></option>
+                                    <option *ngFor="let t of listaCidades" [value]="t.id">{{ t.descricao}}</option>
+                                    </select>
+                              </div>
+                              <div class="col-md-1">
+                                 <label class="form-label">UF</label>
+                                 <select [(ngModel)]="dependente.idcidade" class="form-control form-control-sm" [disabled]="modoLeitura">
+                                 <option value=""></option>
+                                 <option *ngFor="let t of listaCidades" [value]="t.id">{{ t.uf}}</option>
+                                 </select>
+                              </div>
+                             </div>
+
+                               <div class="row g-2 callout callout-tab">
+                                  <div class="col-md-6">
+                                     <label class="form-label">Pai</label>
+                                     <input [(ngModel)]="dependente.nome_pai" type="text" class="form-control form-control-sm" [disabled]="modoLeitura" />
+                                  </div>
+                                  <div class="col-md-6">
+                                     <label class="form-label">Mãe</label>
+                                     <input [(ngModel)]="dependente.nome_mae" type="text" class="form-control form-control-sm" [disabled]="modoLeitura" />
+                                  </div>
+                               </div>
+                               <div class="row g-2  callout callout-tab">
+                                  <div class="col-md-6">
+                                     <label class="form-label">Empresa</label>
+                                     <input type="text" class="form-control form-control-sm" [disabled]="modoLeitura" />
+                                  </div>
+                                  <div class="col-md-6">
+                                     <label class="form-label">Profissão</label>
+                                        <select [(ngModel)]="dependente.identif_prof" class="form-control form-control-sm form-select-sm" [disabled]="modoLeitura">
+                                        <option value=""></option>
+                                        <option *ngFor="let t of listaProfissoes" [value]="t.id">{{ t.descricao}}</option>
+                                        </select>
+                                  </div>
+                               </div>
+                            </div>
+                            <!-- FIM DADOS ADICIONAIS -->
+                            <!-- DADOS EMISSÃO DE CARTOES -->
+                            <div class="tab-pane fade" id="nav-D3" role="tabpanel" aria-labelledby="nav-D3-tab">
+                               <div class="row g-2">
+                                  <div class="col-md-12   callout callout-tab">
+                                     <label class="form-label"></label>
+                                     Cartão Social
+                                     <table class="table table-striped">
+                                        <thead>
+                                           <tr>
+                                              <th scope="col">Via</th>
+                                              <th scope="col">Data Pedido</th>
+                                              <th scope="col">Impressão</th>
+                                              <th scope="col">Entrega</th>
+                                              <th scope="col">Usuario</th>
+                                              <th scope="col">Documento</th>
+                                              <th scope="col">Validade</th>
+                                           </tr>
+                                        </thead>
+                                        <tbody>
+                                           <tr *ngFor="let a of dependente.listaCartoesSocial">
+                                              <td>{{a.via}}</td>
+                                              <td>{{a.dt_pedido}}</td>
+                                              <td>{{a.dt_entrega}}</td>
+                                              <td>{{a.dt_impressao}}</td>
+                                              <td></td>
+                                              <td></td>
+                                              <td>{{a.dt_validade}}</td>
+                                           </tr>
+                                        </tbody>
+                                     </table>
+                                  </div>
+                                  <div class="col-md-12   callout callout-tab">
+                                     <label class="form-label"></label>
+                                     Acesso Temporário
+                                     <table class="table table-striped">
+                                        <thead>
+                                           <tr>
+                                              <th scope="col">Data Emissão</th>
+                                              <th scope="col">Val. Inicial</th>
+                                              <th scope="col">Val. Final</th>
+                                              <th scope="col">Usuário</th>
+                                              <th scope="col">Estado</th>
+                                           </tr>
+                                        </thead>
+                                        <tbody>
+                                           <tr *ngFor="let a of dependente.listaAcessosTemporario">
+                                              <td>{{a.dt_emissa}}</td>
+                                              <td>{{a.dt_ini_val}}</td>
+                                              <td>{{a.dt_fim_val}}</td>
+                                              <td></td>
+                                              <td></td>
+                                           </tr>
+                                        </tbody>
+                                     </table>
+                                  </div>
+                               </div>
+                            </div>
+                            <!-- FIM DADOS EMISSÃO CARTOES -->
+                            <!-- DADOS ATIVIDADES E CURSOS -->
+                            <div class="tab-pane fade" id="nav-D4" role="tabpanel" aria-labelledby="nav-D4-tab">
+                              <table class="table table-striped">
+                                 <thead>
+                                    <tr class="tituloTabela">
+                                       <th scope="col">Atividade</th>
+                                       <th scope="col">Turma</th>
+                                       <th scope="col">Estado</th>
+                                       <th scope="col">Inicio</th>
+                                       <th scope="col">Termino</th>
+                                    </tr>
+                                 </thead>
+                                 <tbody>
+                                    <tr *ngFor="let a of dependente.listaAtividades" >
+                                       <td>{{a.atividade_descricao}}</td>
+                                       <td>{{a.turma_descricao}}</td>
+                                       <td>{{a.estado}}</td>
+                                       <td>{{a.dt_ini}}</td>
+                                       <td>{{a.dt_fim}}</td>
+                                    </tr>
+                                 </tbody>
+                              </table>
+         
+         
+                            </div>
+                            <!-- FIM ATIVIDADES E CURSOS -->
+                         </div>
+                      </div>
+                      <!-- FIM TAB DETALHES-->
+                   </div>
+
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-secondary" (click)="openModalAssociado()">Associado</button>       
+       <button type="button" class="btn btn-outline-primary" [disabled]="modoLeitura == true" (click)="salvar()">SALVAR</button>
+       <button type="button" class="btn btn-outline-danger" [hidden]="modoLeitura ==  true" (click)="excluir()">Excluir</button>
+       <button type="button" class="btn btn-outline-secondary" (click)="activeModal.close()">SAIR</button>
+    </div>
+    
