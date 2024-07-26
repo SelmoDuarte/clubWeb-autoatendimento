@@ -1,7 +1,7 @@
 {
-  "id": "br.com.minasbrasiliatenisclub.areaassociado.pwa",
-  "name": "Minas Brasília Tênis Clube - Área do Associado",
-  "short_name": "Minas Brasília Tênis Clube",
+  "id": "br.com.minasbrasilia.app",
+  "name": "Minas Brasília Tênis Clube",
+  "short_name": "Minas Brasília",
   "description": "Área do Associado do Minas Brasília Tênis Clube",
   "categories": [
     "business"
