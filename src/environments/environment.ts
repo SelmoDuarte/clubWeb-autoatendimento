@@ -7,7 +7,7 @@ export const environment = {
   AMBIENTE: "HML",
 //  AMBIENTE: "",
 //  URL_HOMOLOGACAO:  'https://minasbrasilia.app.br/sistemas-HOMOLOGACAO/clubWeb-api',
-  URL_HOMOLOGACAO:  '',  
+  URL_HOMOLOGACAO:  '/sistemas/clubWeb-autoatendimento-api',  
   URL_PRODUCAO:  '/sistemas/clubWeb-api'
  
 };
