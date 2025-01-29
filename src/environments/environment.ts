@@ -4,8 +4,8 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
-  AMBIENTE: "HML",
-//  AMBIENTE: "",
+//  AMBIENTE: "HML",
+  AMBIENTE: "",
 //  URL_HOMOLOGACAO:  'https://minasbrasilia.app.br/sistemas-HOMOLOGACAO/clubWeb-api',
   URL_HOMOLOGACAO:  '',  
   URL_PRODUCAO:  '/sistemas/clubWeb-api'
