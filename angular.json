@@ -65,7 +65,8 @@
               "buildTarget": "clubWeb-app:build:production"
             },
             "development": {
-              "buildTarget": "clubWeb-app:build:development"
+              "buildTarget": "clubWeb-app:build:development",
+              "proxyConfig": "src/proxy.conf.js"
             }
           },
           "defaultConfiguration": "development"
