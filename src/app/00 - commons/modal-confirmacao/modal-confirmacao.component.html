@@ -1,0 +1,21 @@
+<div class="modal-body">
+    <p *ngFor="let alert of alerts">
+        <ngb-alert [type]="alert.type" [dismissible]="false">
+            <div [innerHtml]="alert.message"></div>
+        </ngb-alert>
+    </p><br>
+    <div class="row g-2">
+        <div class="col-md-6 d-flex justify-content-center">
+            <button type="button" class="btn btn-primary"  (click)="activeModal.close('OK')">CONFIRMAR</button>
+        </div>                        
+        <div class="col-md-6 d-flex justify-content-center">
+            <button type="button" class="btn btn-secondary"  (click)="activeModal.close('CANCELAR')">CANCELAR</button>
+        </div>
+    </div>
+    <div class="row g-2">
+        <div class="col-md-12">
+            <br><br>
+        </div>
+    </div>
+    
+</div>

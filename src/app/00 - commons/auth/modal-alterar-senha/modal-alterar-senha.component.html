@@ -1,0 +1,44 @@
+@if (processando) {
+	<div class="loading">Loading&#8230;</div>
+}
+
+    <div class="modal-header">
+      <div class="col-md-12 alert alert-primary" role="alert">
+          Alterar Senha
+      </div>      
+    </div>
+    <div class="modal-body">
+      <div class="col-md-12">
+        @for (alert of alerts; track alert) {
+        <ngb-alert [type]="alert.type" (closed)="closeAlert(alert)">{{ alert.message }}</ngb-alert>
+        }
+     </div>
+   <div class="container-fluid">
+          <div class="callout callout-info">
+              <div class="row">
+                   <div class="col-md-8">
+                    <label class="form-label">Usuario</label>
+                    <input [(ngModel)]="usuario.userName" type="text" class="form-control form-control-sm" disabled />
+                  </div>     
+                  <div class="col-md-4">
+                    <label class="form-label">Senha Atual</label>
+                    <input [(ngModel)]="usuario.password"  #campoInicial type="password" class="form-control form-control-sm"  />
+                  </div>     
+                  <div class="col-md-6">
+                    <label class="form-label">Nova Senha</label>
+                    <input [(ngModel)]="novaSenha" type="password" id="novaSenha" class="form-control form-control-sm"  />
+                  </div>     
+                  <div class="col-md-6">
+                    <label class="form-label">Repita Nova Senha</label>
+                    <input [(ngModel)]="novaSenha_repetir" type="password" class="form-control form-control-sm"  (keydown.enter)="alterarSenha()"/>
+                  </div>     
+              </div>
+          </div>
+        </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-success"  (click)="alterarSenha()">SALVAR</button>
+      <button type="button" class="btn btn-outline-secondary" (click)="activeModal.close()">SAIR</button>
+
+   
+    </div>
+  
