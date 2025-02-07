@@ -11,7 +11,7 @@
           });
         }var PROXY_CONF = {
           '/api': {
-            target: 'http://172.16.0.229:7070', //'http://172.16.0.242:8080' 'https://minasbrasilia.app.br/sistemas/clubWeb-api',            
+            target: 'http://172.16.0.229:8080', //'http://172.16.0.242:8080' 'https://minasbrasilia.app.br/sistemas/clubWeb-api',            
             timeout:  (300 * 1000) + 1000,
             secure: false,
             changeOrigin: true,
