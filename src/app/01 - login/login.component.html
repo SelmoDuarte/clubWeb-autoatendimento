@@ -16,8 +16,8 @@
 
     <!-- Login Form -->
     <form>
-      <input type="text" [(ngModel)]="usuario.userName" id="userName"  matInput mask="000.000.000-00" [dropSpecialCharacters]="false"  #campoInicial id="login" class="fadeIn second" name="login" placeholder="CPF">
-      <input type="text" [(ngModel)]="usuario.password" id="password" class="fadeIn third" name="login" placeholder="Senha">
+      <input type="text" [(ngModel)]="usuario.userName" id="userName"  matInput mask="000.000.000-00" [dropSpecialCharacters]="false"  #campoInicial id="login" class="fadeIn second" name="login" placeholder="CPF"  autocomplete="off">
+      <input type="password" [(ngModel)]="usuario.password" id="password" class="fadeIn third" name="login" placeholder="Senha">
       <input type="submit" (click)="login()" class="fadeIn fourth" value="Log In">
     </form>
 

@@ -1,0 +1,38 @@
+@if (processando) {
+   <div class="loading">Loading&#8230;</div>
+   }
+   <div class="modal-header bg-secondary text-white">
+      <h4 class="modal-title" id="modal-basic-title">
+          Utilitários:
+      </h4>
+   </div>
+
+<div class="modal-body">
+    <div class="row g-2 h-50">
+        <div class="col-md-4">
+               <button type="button" class="btn btn-outline-primary" (click)="limparCache()">
+                     <i class="fa fa-eraser" aria-hidden="true"></i>
+                     Limpar Cache
+               </button>
+         </div>
+         <div class="col-md-4 text-center">
+               <button type="button" class="btn btn-outline-primary" (click)="refreshToken()">
+                  <i class="fa fa-sign-in" aria-hidden="true"></i>
+                  Revalidar Token
+               </button>
+         </div>
+         <div class="col-md-4 text-end">
+            <button type="button" class="btn btn-outline-primary" (click)="logout()">
+               <i class="fa fa-sign-out" aria-hidden="true"></i>
+               Logout
+            </button>
+         </div>
+         <div class="col-md-12">
+            <br><hr>
+        </div>
+        <div class="col-md-12 d-flex justify-content-center">
+            <hr>
+            <button type="button" class="btn btn-secondary"  (click)="cancelar()">SAIR</button>
+        </div>
+    </div>
+</div>

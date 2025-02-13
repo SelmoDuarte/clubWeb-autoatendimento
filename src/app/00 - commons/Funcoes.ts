@@ -294,7 +294,7 @@ export class Funcoes {
 
     static getPathFoto(nome_arquivo: string, tipo: string) {
         if (nome_arquivo == "" || nome_arquivo == null){
-            return '/assets/img/pessoaNaoIdentificada.png';
+            return '/img/pessoaNaoIdentificada.png';
         }
         if (tipo == 'S' ||  tipo == '1'){
             return '/ged/Fotos/Titular/' + nome_arquivo;
@@ -307,7 +307,7 @@ export class Funcoes {
         }else if (tipo == 'H' ||  tipo == '5'){
             return '/ged/Fotos/Dependentes/' + nome_arquivo;
         }else{
-            return '/assets/img/pessoaNaoIdentificada.png';
+            return '/img/pessoaNaoIdentificada.png';
         }
     }
 

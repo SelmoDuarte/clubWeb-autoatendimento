@@ -5,7 +5,8 @@ import { map, take } from 'rxjs/operators';
 import { AuthService } from './auth.services';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalAcessoNegadoComponent } from './modal-acessoNegado/modal-acessoNegado.component';
-import { Funcoes } from '../commons/Funcoes';
+import { Funcoes } from '../Funcoes';
+
 
 
 @Injectable({
